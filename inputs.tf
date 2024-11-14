@@ -16,7 +16,7 @@ variable "billing" {
 
 variable "content_folder_names" {
     type = list(string)
-    default = ["content","content2"]
+    default = ["content","Artefact_repo"]
 }
 
 variable "builders" {
@@ -25,6 +25,8 @@ variable "builders" {
         sa_name :string
         repo :string
         branch :string
+        filename :string
+        folder_ids : map(any)
         iam : list(object({
             content_folder_name : string,
             roles : list(string)
@@ -37,13 +39,54 @@ variable "builders" {
             sa_name = "builderbob"
             repo = "https://github.com/graham-fletcher-athome-org/demoapp.git"
             branch = "main"
+            filename = "cloudbuild.yaml"
+            folder_ids = {
+                content = "content"
+            }
             iam = [
                 {
                     content_folder_name="content",
                     roles=["roles/owner"]
                 }
             ]
+        },
+
+        {
+            name: "artefact-repo"
+            sa_name = "builderar"
+            repo = "https://github.com/graham-fletcher-athome-org/artefact_repo.git"
+            branch = "infra"
+            filename = "infra/cloudbuild.yaml"
+            folder_ids = {
+                tl_folder = "Artefact_repo"
+            }
+            iam = [
+                {
+                    content_folder_name="Artefact_repo",
+                    roles=["roles/owner"]
+                }
+            ]
+        },
+
+        {
+            name: "artefact-repo-application"
+            sa_name = "builderar"
+            repo = "https://github.com/graham-fletcher-athome-org/artefact_repo.git"
+            branch = "main"
+            filename = "application/cloudbuild.yaml"
+            folder_ids = {
+                tl_folder = "Artefact_repo"
+            }
+            iam = [
+                {
+                    content_folder_name="Artefact_repo",
+                    roles=["roles/editor"]
+                }
+            ]
         }
+
+        
+        
     ] 
     
 }

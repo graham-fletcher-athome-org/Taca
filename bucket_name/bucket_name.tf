@@ -1,8 +1,8 @@
 variable "name" {
   type    = string
   validation {
-    condition     = length(var.name) <20
-    error_message = "The base name of a bucket should not exceed 20 charecters"
+    condition     = length(var.name) <60
+    error_message = "The base name of a bucket should not exceed 60 charecters"
   }
 }
 

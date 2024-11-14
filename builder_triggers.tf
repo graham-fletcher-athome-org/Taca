@@ -3,6 +3,8 @@ locals {
             sa_name = builder.sa_name
             repo = builder.repo
             branch = builder.branch
+            filename = builder.filename
+            folder_ids = builder.folder_ids
     }} : {}
 }
 output "joe" {
@@ -22,6 +24,7 @@ resource "google_cloudbuildv2_repository" "github_repos" {
 
 resource "google_cloudbuild_trigger" "triggers" {
   for_each = local.triggers
+  name = each.key
   location = coalesce(var.location_build_triggers,var.default_location)
   project = google_project.builder_project.project_id
   service_account = google_service_account.builder_service_accounts[each.value.sa_name].id
@@ -35,8 +38,10 @@ resource "google_cloudbuild_trigger" "triggers" {
     _LOGBUCKET = google_storage_bucket.log_buckets[each.key].id
     _BABUCKET = google_storage_bucket.build_assets_buckets[each.key].id
     _DEFAULT_LOCATION = var.default_location
+    _FOLDER_IDS = jsonencode({ for x,y in each.value.folder_ids : x => contains(var.content_folder_names,y) ? google_folder.content_folder[y].id : y})
+    _FOUNDATION_CODE = local.foundation_code
   }
 
-  filename = "cloudbuild.yaml"
+  filename = each.value.filename
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 }

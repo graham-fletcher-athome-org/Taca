@@ -16,7 +16,7 @@ variable "billing" {
 
 variable "content_folder_names" {
     type = list(string)
-    default = ["content"]
+    default = ["demo"]
 }
 
 variable "builders" {
@@ -41,11 +41,11 @@ variable "builders" {
             branch = "main"
             filename = "cloudbuild.yaml"
             folder_ids = {
-                content = "content"
+                content = "demo"
             }
             iam = [
                 {
-                    content_folder_name="content",
+                    content_folder_name="demo",
                     roles=["roles/owner"]
                 }
             ]

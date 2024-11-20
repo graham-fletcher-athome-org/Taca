@@ -16,7 +16,7 @@ variable "billing" {
 
 variable "content_folder_names" {
     type = list(string)
-    default = ["demo"]
+    default = []
 }
 
 variable "builders" {
@@ -33,24 +33,7 @@ variable "builders" {
             }))
     }))
 
-    default = [
-        {
-            name: "default1"
-            sa_name = "builderbob"
-            repo = "https://github.com/graham-fletcher-athome-org/demoapp.git"
-            branch = "main"
-            filename = "cloudbuild.yaml"
-            folder_ids = {
-                content = "demo"
-            }
-            iam = [
-                {
-                    content_folder_name="demo",
-                    roles=["roles/owner"]
-                }
-            ]
-        },
-    ] 
+    default = []
     
 }
 

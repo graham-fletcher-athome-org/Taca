@@ -16,7 +16,7 @@ variable "billing" {
 
 variable "content_folder_names" {
     type = list(string)
-    default = ["content","Artefact_repo"]
+    default = ["content"]
 }
 
 variable "builders" {
@@ -50,43 +50,6 @@ variable "builders" {
                 }
             ]
         },
-
-        {
-            name: "artefact-repo"
-            sa_name = "builderar"
-            repo = "https://github.com/graham-fletcher-athome-org/artefact_repo.git"
-            branch = "infra"
-            filename = "infra/cloudbuild.yaml"
-            folder_ids = {
-                tl_folder = "Artefact_repo"
-            }
-            iam = [
-                {
-                    content_folder_name="Artefact_repo",
-                    roles=["roles/owner"]
-                }
-            ]
-        },
-
-        {
-            name: "artefact-repo-application"
-            sa_name = "builderar"
-            repo = "https://github.com/graham-fletcher-athome-org/artefact_repo.git"
-            branch = "main"
-            filename = "application/cloudbuild.yaml"
-            folder_ids = {
-                tl_folder = "Artefact_repo"
-            }
-            iam = [
-                {
-                    content_folder_name="Artefact_repo",
-                    roles=["roles/editor"]
-                }
-            ]
-        }
-
-        
-        
     ] 
     
 }

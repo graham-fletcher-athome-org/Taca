@@ -7,7 +7,7 @@ module "project_name_covention" {
 resource "google_project" "builder_project" {
   project_id = module.project_name_covention.id
   name = module.project_name_covention.name
-  folder_id  = google_folder.top_folder.name
+  folder_id  = local.top_folder_id
   billing_account = var.billing
   deletion_policy = "DELETE"
 }

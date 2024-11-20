@@ -14,7 +14,7 @@ locals {
                                 repo = var.bootstrap_repo
                                 branch = "main"
                                 filename = "Cloudbuild.yaml"
-                                folder_ids = {"root"=google_folder.top_folder.id}
+                                folder_ids = {"root"=local.top_folder_id}
                             }
                         }) : local.triggers_d):{}
 }

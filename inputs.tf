@@ -123,3 +123,9 @@ variable "location_build_triggers"{
     default = null
 }
 
+variable "bootstrap_repo"{
+    type = string
+    default = null
+    nullable = true
+}
+

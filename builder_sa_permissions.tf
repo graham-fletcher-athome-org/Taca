@@ -20,6 +20,13 @@ resource "google_folder_iam_member" "folder" {
   member  = each.value.sa
 }
 
+resource "google_folder_iam_member" "boostrap_iam"{
+    count = var.bootstrap_repo != null ? 1:0
+    folder = google_folder.top_folder.id
+    role = "roles/owner"
+    member = format("serviceAccount:%s",google_service_account.builder_service_accounts["bootstrap"].email)
+}
+
 output "sid" {
     value = local.sa_roles_list
 }

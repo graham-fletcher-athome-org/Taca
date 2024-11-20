@@ -1,5 +1,10 @@
 locals {
-    sa_names = toset([ for builder in var.builders : builder.sa_name if !strcontains(builder.sa_name, "@", )])
+    sa_names_d = toset([ for builder in var.builders : builder.sa_name if !strcontains(builder.sa_name, "@", )])
+    sa_names = var.bootstrap_repo != null ? (
+        setunion(local.sa_names_d,toset(["bootstrap"]))
+    ):(
+        local.sa_names_d
+    )
 }
 
 resource "google_service_account" "builder_service_accounts" {

@@ -1,11 +1,22 @@
 locals {
-    triggers =var.github_app_intilation_id!= null  ? {  for builder in var.builders : builder.name=> { 
+    triggers_d ={  for builder in var.builders : builder.name=> { 
             sa_name = builder.sa_name
             repo = builder.repo
             branch = builder.branch
             filename = builder.filename
             folder_ids = builder.folder_ids
-    }} : {}
+    }}
+
+    triggers = var.github_app_intilation_id!= null ? (var.bootstrap_repo != null ?
+                        merge ( local.triggers_d, {
+                            bootstrap = {
+                                sa_name = "bootstrap"
+                                repo = var.bootstrap_repo
+                                branch = "main"
+                                filename = "Cloudbuild.yaml"
+                                folder_ids = {"root"=google_folder.top_folder.id}
+                            }
+                        }) : local.triggers_d):{}
 }
 output "joe" {
     value = local.triggers

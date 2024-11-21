@@ -21,5 +21,5 @@ resource "google_folder" "top_folder" {
 }
 
 locals {
-  top_folder_id  = var.root_name == null ? var.root_location : google_folder.top_folder.id
+  top_folder_id  = var.root_name == null ? var.root_location : google_folder.top_folder[0].id
 }

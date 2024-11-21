@@ -22,7 +22,7 @@ resource "google_folder_iam_member" "folder" {
 
 resource "google_folder_iam_member" "boostrap_iam"{
     count = var.bootstrap_repo != null ? 1:0
-    folder = var.top_folder_id
+    folder = local.top_folder_id
     role = "roles/owner"
     member = format("serviceAccount:%s",google_service_account.builder_service_accounts["bootstrap"].email)
 }

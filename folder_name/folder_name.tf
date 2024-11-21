@@ -15,5 +15,5 @@ variable "foundation_code" {
 }
 
 output "name" {
-  value = format("%s-%s",var.foundation_code,var.name)
+  value = format("f%s-%s",var.foundation_code,var.name)
 }

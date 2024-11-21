@@ -46,13 +46,12 @@ resource "google_cloudbuild_trigger" "triggers" {
     }
   }
   substitutions = {
-    _LOGBUCKET = google_storage_bucket.log_buckets[each.key].id
     _BABUCKET = google_storage_bucket.build_assets_buckets[each.key].id
     _DEFAULT_LOCATION = var.default_location
     _FOLDER_IDS = jsonencode({ for x,y in each.value.folder_ids : x => contains(var.content_folder_names,y) ? google_folder.content_folder[y].id : y})
     _FOUNDATION_CODE = local.foundation_code
   }
-
+  logs_bucket = format("gs://%s",google_storage_bucket.log_buckets[each.key].id)
   filename = each.value.filename
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 }

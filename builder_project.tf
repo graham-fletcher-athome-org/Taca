@@ -29,6 +29,6 @@ resource "google_project_service" "cs_service" {
 
 resource "google_project_service" "rm_service" {
   project = google_project.builder_project.id
-  service = "resourcemanager.googleapis.com"
+  service = "cloudresourcemanager.googleapis.com"
 }
 

@@ -15,7 +15,7 @@ module "folder_name" {
 
 resource "google_folder" "top_folder" {
   count = var.root_name == null ? 0 : 1
-  display_name = module.folder_name.name
+  display_name = module.folder_name[0].name
   parent       = var.root_location
   deletion_protection=false
 }

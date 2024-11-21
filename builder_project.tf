@@ -27,4 +27,8 @@ resource "google_project_service" "cs_service" {
   service = "storage.googleapis.com"
 }
 
+resource "google_project_service" "rm_service" {
+  project = google_project.builder_project.id
+  service = "resourcemanager.googleapis.com"
+}
 

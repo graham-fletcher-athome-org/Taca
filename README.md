@@ -1,6 +1,6 @@
 # SCAFFOLD
 
-Scaffold is a minimal set of terraform required to deploy:
+Scaffold is a minimal set of terraform required to deploy the following objets into a GCP org or folder:
 1. An optional folder to contain everything else
 2. A project with cloud build enabled
 3. A link to github
@@ -11,4 +11,15 @@ Scaffold is a minimal set of terraform required to deploy:
     3. A cloud build trigger that activates when a commit is made to a 
        specified branch on a github repository. Where the resulting invocation
        uses the builders service account.
-       
+
+Scaffold was origonally envisioned as a basis for deploying GCP foundations, the layer that provides the secruity framework.  It is by design, very simple and low complexity. However, this allows a large range of different foundations, or other services to be built on top of scaffold. 
+
+The following sections give:
+1. Instructions for a simple deployment of scaffold.
+2. A full set of documentation for all of the options availible within scaffold.
+3. A set of sample use-cases and matching configurations.
+
+The final section of this document details how we use scaffold to deliver a highly secure foundation to secure GCP to the very highest standards.
+
+
+

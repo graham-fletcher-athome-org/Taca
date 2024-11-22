@@ -22,6 +22,11 @@ The following sections give:
 The final section of this document details how we use scaffold to deliver a highly secure foundation to secure GCP to the very highest standards.
 
 ## Getting Started - A simple configuration
+```js
+function myFunction () {
+   return true;
+}
+```
 
 ```mermaid
 graph TD
@@ -31,18 +36,6 @@ graph TD
 
     A-->B;
 ```
-```mermaid
-architecture-beta
-    group api(cloud)[API]
 
-    service db({ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", w: 48, h: 48 })[Database] in api
-    service disk1(disk)[Storage] in api
-    service disk2(disk)[Storage] in api
-    service server(server)[Server] in api
-
-    db:L -- R:server
-    disk1:T -- B:server
-    disk2:T -- B:db
-```
 
 

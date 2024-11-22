@@ -30,7 +30,9 @@ function myFunction () {
 
 ```mermaid
 graph TD
-    subgraph {<p>subgraph2</p>}
+    subgraph subgraph2
+        F@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", constraint: "on"};
+
         A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", width: 10, height: 10, constraint: "on"};
 
         B@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", w: 48, h: 48 };

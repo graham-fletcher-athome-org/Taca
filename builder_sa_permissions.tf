@@ -1,5 +1,5 @@
 locals {
-  sa_roles_list = var.github_app_intilation_id != null ? flatten([for builder in var.builders :
+  sa_roles_list = var.github_app_intigration_id != null ? flatten([for builder in var.builders :
     [for iam in builder.iam :
       [for role in iam.roles : {
         sa_short     = builder.sa_name

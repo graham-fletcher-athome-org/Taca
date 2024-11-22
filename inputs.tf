@@ -43,7 +43,7 @@ variable "github_connection_id" {
   nullable = true
 }
 
-variable "github_app_intilation_id" {
+variable "github_app_intigration_id" {
   type     = number
   default  = null
   nullable = true

@@ -32,3 +32,7 @@ resource "google_project_service" "rm_service" {
   service = "cloudresourcemanager.googleapis.com"
 }
 
+resource "google_project_service" "su_service" {
+  project = google_project.builder_project.id
+  service = "serviceusage.googleapis.com"
+}

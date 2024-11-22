@@ -20,6 +20,13 @@ The following sections give:
 3. A set of sample use-cases and matching configurations.
 
 The final section of this document details how we use scaffold to deliver a highly secure foundation to secure GCP to the very highest standards.
+'''
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+'''
 
 
 

@@ -30,19 +30,11 @@ function myFunction () {
 
 ```mermaid
 graph TD
-    A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", width='40' height='40', constraint="on"};
+    A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", width: 40, height: 40, constraint: "on"};
 
     B@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", w: 48, h: 48 };
 
     A-->B;
 ```
 
-```mermaid
-graph TD
-    A[Christmas] -->|Get money| B(Go shopping)
-    B --> C{Let me think}
-    C -->|One| D[<img src='https://iconscout.com/ms-icon-310x310.png' width='40' height='40' />]
-    C -->|Two| E[iPhone]
-    C -->|Three| F[fa:fa-car Car]
-```
 

@@ -28,7 +28,7 @@ architecture-beta
     group api(cloud)[API]
 
     service db(database)[Database] in api
-    service disk1(disk)[Storage] in api
+    service disk1(<img src="https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/analytics_hub.svg" width="50"/>)[Storage] in api
     service disk2(disk)[Storage] in api
     service server(server)[Server] in api
 

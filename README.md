@@ -30,7 +30,7 @@ function myFunction () {
 
 ```mermaid
 graph TD
-    A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", width='40' height='40' };
+    A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", width='40' height='40', constraint="on"};
 
     B@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", w: 48, h: 48 };
 

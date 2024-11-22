@@ -25,12 +25,12 @@ The final section of this document details how we use scaffold to deliver a high
 
 ```mermaid
 architecture-beta
-    group api(cloud)[API]
+    group api(logos:aws-lambda)[API]
 
-    service db(database)[Database] in api
-    service disk1(<img src="https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/analytics_hub.svg" width="50"/>)[Storage] in api
-    service disk2(disk)[Storage] in api
-    service server(server)[Server] in api
+    service db(logos:aws-aurora)[Database] in api
+    service disk1(logos:aws-glacier)[Storage] in api
+    service disk2(logos:aws-s3)[Storage] in api
+    service server(logos:aws-ec2)[Server] in api
 
     db:L -- R:server
     disk1:T -- B:server

@@ -1,13 +1,13 @@
 module "project_name_covention" {
-    source = "./project_name_and_id"
-    foundation_code = local.foundation_code
-    name = "builder"
+  source          = "./project_name_and_id"
+  foundation_code = local.foundation_code
+  name            = "builder"
 }
 
 resource "google_project" "builder_project" {
-  project_id = module.project_name_covention.id
-  name = module.project_name_covention.name
-  folder_id  = local.top_folder_id
+  project_id      = module.project_name_covention.id
+  name            = module.project_name_covention.name
+  folder_id       = local.top_folder_id
   billing_account = var.billing
   deletion_policy = "DELETE"
 }

@@ -24,7 +24,7 @@ The final section of this document details how we use scaffold to deliver a high
 ## Getting Started - A simple configuration
 
 ```mermaid
-flowchart TD
+graph TD
     A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg", label: "Image Label", pos: "t", w: 60, h: 60, constraint: "off" }
 ```
 

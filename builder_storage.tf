@@ -13,6 +13,8 @@ resource "google_storage_bucket" "log_buckets" {
   storage_class               = "STANDARD"
   uniform_bucket_level_access = true
   project                     = google_project.builder_project.project_id
+  force_destroy               = true
+  public_access_prevention    = "enforced"
   depends_on                  = [google_project_service.cs_service]
 }
 
@@ -38,6 +40,8 @@ resource "google_storage_bucket" "build_assets_buckets" {
   storage_class               = "STANDARD"
   uniform_bucket_level_access = true
   project                     = google_project.builder_project.project_id
+  force_destroy               = true
+  public_access_prevention    = "enforced"
   depends_on                  = [google_project_service.cs_service]
 }
 

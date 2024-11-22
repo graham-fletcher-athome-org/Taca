@@ -35,7 +35,7 @@ graph TD
 architecture-beta
     group api(cloud)[API]
 
-    service db(@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", w: 48, h: 48 })[Database] in api
+    service db({ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", w: 48, h: 48 })[Database] in api
     service disk1(disk)[Storage] in api
     service disk2(disk)[Storage] in api
     service server(server)[Server] in api

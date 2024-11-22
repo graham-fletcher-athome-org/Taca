@@ -21,14 +21,14 @@ resource "google_folder_iam_member" "folder" {
 }
 
 resource "google_folder_iam_member" "boostrap_iam_f1" {
-  count  = var.bootstrap_repo != null && startswith(local.top_folder_id, "folders/") ? 1 : 0
+  count  = var.bootstrap_repo != null ? 1 : 0
   folder = local.top_folder_id
   role   = "roles/owner"
   member = format("serviceAccount:%s", google_service_account.builder_service_accounts["bootstrap"].email)
 }
 
 resource "google_folder_iam_member" "boostrap_iam_f2" {
-  count  = var.bootstrap_repo != null && startswith(local.top_folder_id, "folders/") ? 1 : 0
+  count  = var.bootstrap_repo != null ? 1 : 0
   folder = local.top_folder_id
   role   = "roles/resourcemanager.folderAdmin"
   member = format("serviceAccount:%s", google_service_account.builder_service_accounts["bootstrap"].email)

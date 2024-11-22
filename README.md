@@ -25,7 +25,7 @@ The final section of this document details how we use scaffold to deliver a high
 
 ```mermaid
 graph TD
-    A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg", label: "Image Label", pos: "t", w: 60, h: 60, constraint: "off" }
+    A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg", label: "Image Label", pos: "t", w: 48, h: 48 }
 ```
 
 

@@ -42,7 +42,7 @@ data "google_secret_manager_secret_version" "latest_pac" {
 }
 
 resource "google_cloudbuildv2_connection" "connection" {
-  count    = var.github_connection_id == null && var.github_app_intilation_id != null ? 1 : 0
+  count    = var.github_connection_id == null && var.github_app_intigration_id != null ? 1 : 0
   project  = google_project.builder_project.id
   location = coalesce(var.location_build_triggers, var.default_location)
   name     = "github-connection"

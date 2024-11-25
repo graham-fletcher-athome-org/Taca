@@ -22,23 +22,6 @@ The following sections give:
 The final section of this document details how we use scaffold to deliver a highly secure foundation to secure GCP to the very highest standards.
 
 ## Getting Started - A simple configuration
-```js
-function myFunction () {
-   return true;
-}
-```
-
-```mermaid
-graph TD
-    subgraph subgraph2
-        F@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/google_bigquery_logo_icon_168150.png",label: "Image Label", constraint: "on"};
-
-        A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/google_bigquery_logo_icon_168150.png",label: "Image Label", width: 10, height: 10, constraint: "on"};
-
-        B@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/google_bigquery_logo_icon_168150.png",label: "Image Label", w: 48, h: 48 };
-
-        A-->B;
-    end
-```
 
 
+![alt text](http://yuml.me/diagram/scruffy/class/[Customer]<>1-*>[Order], [Customer]-[note: Aggregate Root {bg:cornsilk}])

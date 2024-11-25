@@ -31,40 +31,14 @@ function myFunction () {
 ```mermaid
 graph TD
     subgraph subgraph2
-        F@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", constraint: "on"};
+        F@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/google_bigquery_logo_icon_168150.png",label: "Image Label", constraint: "on"};
 
-        A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", width: 10, height: 10, constraint: "on"};
+        A@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/google_bigquery_logo_icon_168150.png",label: "Image Label", width: 10, height: 10, constraint: "on"};
 
-        B@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/bigquery.svg",label: "Image Label", w: 48, h: 48 };
+        B@{ img: "https://raw.githubusercontent.com/graham-fletcher-athome/icons/refs/heads/main/google_bigquery_logo_icon_168150.png",label: "Image Label", w: 48, h: 48 };
 
         A-->B;
     end
-```
-```mermaid
-%%{
-  init: {
-    "sequence": {
-      "actorFontFamily": "monospace",
-      "actorFontWeight": "bold",
-      "messageFontFamily": "monospace",
-      "messageFontWeight": "bold",
-      "messageFontColor": "red",
-      "noteFontWeight": "bolder"
-    }
-  }
-}%%
-
-sequenceDiagram
-  autonumber
-  participant Browser
-  participant AppServer
-
-  rect rgb(255, 255, 255, 0.05)
-    note over Browser, AppServer: (Phase 1) Authentication Check
-
-    Browser ->> AppServer: GET /admin { Cookie:  }
-    Browser ->> Browser: useSession
-  end
 ```
 
 

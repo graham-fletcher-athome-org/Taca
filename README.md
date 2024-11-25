@@ -65,5 +65,7 @@ Scaffold will then create:
       1.  A GCP service account that will be used as the identity when deploying the system.
       2.  Owner and folderAdmin IAM privilages for the service account on the main folder. These privilages de give this builder "Super user" status on the system. Suitable controls should there be placed on access to the service account and to the content of the configuration repository.
 
-      `RISK:  Access to the configuration git hub repostory or to the assositaed service account on GCP would enable super user access to the system being deployed. This could be used for any action including, but not limited to, deployment of infrastrcuture and the extraction or modification of data.` 
-
+      ```
+      RISK:  Access to the configuration git hub repostory or to the assositaed service account on GCP would enable super user access to the system being deployed. This could be used for any action including, but not limited to, deployment of infrastrcuture and the extraction or modification of data.
+      ```
+      

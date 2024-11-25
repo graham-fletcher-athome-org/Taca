@@ -43,3 +43,27 @@ The system should have access to this repository. This can either be access to t
 4. Configuration repository.
 
 The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism.
+
+Scaffold will then create:
+
+1. Main folder 
+
+The main folder to house all componenets. This also acts as a wrapper to apply IAM and organisational policy to the whole system.
+
+2. GCP Project - Builder
+
+The builder project contains the necessary systems and infrastructure to integrate with GitHUB and run cloud build piplines when trigged by pushes to the attached GitHUB branches.
+
+    a. Secret manager
+    
+    Secret Manager is used to hold a GitHUB user PAC code. PAC codes are issed by GIT hub and allow the GCP service accounts to authenticate as the automation user account from GitHUB.
+
+    b. Cloud build.
+
+    Could build is enabled to react to changes within the GitHUB configuration repository. Cloud build could be  configured with  many "Builders". In this example a sinlge builder is defined aand configured to process changes in the configuration repository.
+
+        i.  A GCP service account that will be used as the identity when deploying the system.
+        ii. Owner and folderAdmin IAM privilages for the service account on the main folder. These privilages de give this builder "Super user" status on the system. Suitable controls should there be placed on access to the service account and to the content of the configuration repository.
+
+        `RISK:  Access to the configuration git hub repostory or to the assositaed service account on GCP would enable super user access to the system being deployed. This could be used for any action including, but not limited to, deployment of infrastrcuture and the extraction or modification of data.` 
+

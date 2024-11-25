@@ -23,5 +23,6 @@ The final section of this document details how we use scaffold to deliver a high
 
 ## Getting Started - A simple configuration
 
+The simplist scaffold configuraion results in the following deployment.
 
-![alt text](./d2.svg)
+![](./diagrams/HLA.svg)

@@ -118,3 +118,51 @@ Scaffold will then create:
 ### Getting Started - Installing the simple deployment
 
 1.  Deploy the [GCP GitHUB app](https://github.com/apps/google-cloud-build) into the GCP organisation or user account. 
+
+2.  If using a GitHUB organisation, Create a GITHub user for use by automations.  Alteranativy, a personal account may be used in PoC type deployments.
+
+3.  Create a [PAC code](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) for the integration GitHUB account. 
+
+4.  Create a configuration repository. Copy the content of samples/simple sub director into the new repository
+
+5.  Authenticate with GCP.  Open the console command line.
+
+6.  Clone your new configuration repository.
+
+7.  Update the configuration with details or your billing account, repo locations and the gcp location in which the system should be deployed. Push all changes back to your configuration repository.
+
+8.  Init, plan and apply the terraform in the configuration.
+
+9.  Terraform will deploy an initial folder, and build project. In the build project, locate secret manager.  Secret manager will contain a single secret. Add a new version of this secret that contains the PAC code from step 3.
+
+10.  Update the configuration to include the  app integration id for the app installed into GITHub in step 1.
+
+11.  Re-init, plan and apply the terraform.  The system should create the "Builder" fro the configuration repostory.
+
+12.  Re-init the terrafrom to copy the terraform state from your terminal to a storage location in the build project.
+
+13.  Terrafrom will have created a new file, backend.tf.  Push this file along with changes to main.tf back to the remote confiuration repository.  Do not push and other terraform files such as the state files.
+
+14. Confirm that cloud build ran when the updated files were pushed to github.  Further changes to this reposity will be deployed on changes to the main branch.
+
+15. Delete the local version of the repository.  Further changes should be made via an IDE and pushed to the remote repository.  Changes will be deployed via cloud build.
+
+Additional terraform can be added to the configuration repository and will be actioned with updates to the system.  Infrastruture applied here will be deployed using a super user level permissions.  Development and deployemnt should be restriced to systems that require this level of access and be completed by suitibly tained and trusted staff.
+
+Refer to later sections in this document for design approaches and instructions for creating additional builders with lower privilage levels for application and service deploymet.
+
+### Getting Started - Deleting the simple deployment
+
+1.  Remove any additional infrastrcutre that has been deployed, either by the addition of other builders or by adding terrafrom to the configuration repository.
+
+2. Authenticate with GCP.  Open the console command line.
+
+3.  Clone the configuration repository.
+
+4. Init the terraform
+
+5. Delete the file backend.tf
+
+6. Re-init the terrafrom.  This will move the terraform statefiles out of gcp and onto your teramal.
+
+7. Destory the terraform

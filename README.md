@@ -135,7 +135,7 @@ Scaffold will then create:
 
 9.  Terraform will deploy an initial folder, and build project. In the build project, locate secret manager.  Secret manager will contain a single secret. Add a new version of this secret that contains the PAC code from step 3.
 
-10.  Update the configuration to include the  app integration id for the app installed into GITHub in step 1.
+10.  Update the configuration to include the  app integration id for the app installed into GITHub in step 1 and the location of the configuration repository in GITHub.
 
 11.  Re-init, plan and apply the terraform.  The system should create the "Builder" fro the configuration repostory.
 

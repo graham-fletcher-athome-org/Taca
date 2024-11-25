@@ -26,3 +26,20 @@ The final section of this document details how we use scaffold to deliver a high
 The simplist scaffold configuraion results in the following deployment.
 
 ![](./diagrams/HLA.svg)
+
+The following are pre-requisites that should exist within a Github organisation or user account.
+1. GCP-GitHUB Plugin
+
+This is required to process access to GitHUB from gcp and to enable branch merge on GitHUB to trigger cloud build.  
+
+2. GitHUB user account
+
+A Git hub user account is required to process automation actions. This should not generally be a user account, but should be an dedicated account.
+
+3. Scaffold Repository
+
+The system should have access to this repository. This can either be access to the public repository or to a private clone.
+
+4. Configuration repository.
+
+The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism.

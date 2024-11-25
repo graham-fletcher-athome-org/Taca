@@ -42,7 +42,54 @@ The system should have access to this repository. This can either be access to t
 
 4. Configuration repository.
 
-The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism.
+The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism. The sample cofiguration repository should contain a file, main.tf.
+
+```
+main.tf
+
+module "secure" {
+  source = "https://github.com/<LOCATION OF SCAFFOLD REPO>.rep"
+  github_app_intigration_id = null
+  billing = "<YOUR BILLING ACCOUNT ID>"
+  root_location = "organizations/<WHERE THE SYSTEM SHOULD BE SHOULD BE SEPLOYED>"
+  root_name = "BIP" 
+  bootstrap_repo = "https://github.com/graham-fletcher-athome-org/<LOCATION OF THE CONFIGURATION REPO>" 
+  content_folder_names = []
+  builders = [] 
+}
+```
+
+also required is the build configuration. A Simple build configuration for terrafrom is shown below:
+```
+Cloudbuild.yaml
+
+steps:
+
+# Step 2: Initialize Terraform
+- name: "hashicorp/terraform:latest"
+  entrypoint: "terraform"
+  args: ["init"]
+
+# Step 3: Validate Terraform configuration
+- name: "hashicorp/terraform:latest"
+  entrypoint: "terraform"
+  args: ["validate"]
+
+# Step 4: Plan Terraform changes
+- name: "hashicorp/terraform:latest"
+  entrypoint: "terraform"
+  args: ["plan", "-out=tfplan"]
+
+# Step 5: Apply Terraform changes only on the main branch
+- name: "hashicorp/terraform:latest"
+  entrypoint: "terraform"
+  args: ["apply", "-auto-approve", "tfplan"]
+
+logs_bucket: $_LOGBUCKET
+timeout: "1200s"  
+```
+
+
 
 Scaffold will then create:
 

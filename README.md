@@ -166,3 +166,9 @@ Refer to later sections in this document for design approaches and instructions 
 6. Re-init the terrafrom.  This will move the terraform statefiles out of gcp and onto your teramal.
 
 7. Destory the terraform
+
+## Architecting scaffold deployments
+
+Scaffold creates very simple logical architectures.  The simple example, delivers a logical architecture as shown below.
+
+![](./diagrams/LA_Simple.svg)

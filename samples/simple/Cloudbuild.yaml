@@ -1,0 +1,33 @@
+steps:
+
+# Step 2: Initialize Terraform
+- name: "hashicorp/terraform:latest"
+  entrypoint: "terraform"
+  args: ["init"]
+
+# Step 3: Validate Terraform configuration
+- name: "hashicorp/terraform:latest"
+  entrypoint: "terraform"
+  args: ["validate"]
+
+# Step 4: Plan Terraform changes
+- name: "hashicorp/terraform:latest"
+  entrypoint: "terraform"
+  args: ["plan", "-out=tfplan"]
+
+# Step 5: Apply Terraform changes only on the main branch
+- name: "hashicorp/terraform:latest"
+  entrypoint: "sh"
+  args:
+    - "-c"
+    - |
+      if [ "${BRANCH_NAME}" = "main" ]; then
+        terraform apply -auto-approve tfplan
+      else
+        echo "Skipping apply step as branch is not main."
+      fi
+
+logs_bucket: $_LOGBUCKET
+
+# Add any environment variables if needed
+timeout: "1200s"  # Optional: Adjust timeout as required for long-running steps

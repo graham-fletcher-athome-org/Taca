@@ -24,4 +24,4 @@ The final section of this document details how we use scaffold to deliver a high
 ## Getting Started - A simple configuration
 
 
-![alt text](Untitled Diagram.drawio.svg)
+![alt text](./d2.svg)

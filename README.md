@@ -22,7 +22,9 @@ The following sections give:
 The final section of this document details how we use scaffold to deliver a highly secure foundation to secure GCP to the very highest standards.
 
 ## Getting Started - A simple configuration
+This section oulines what a simple configuration delivers, and the infrastructure that will be deployed. It then provdes instructions on how to deliver the simple configuration. The simple configuration should always be considered a fist step that will be modified to produce more complex solutions.  Delivering the simple configuration will prove the github integration which is key to more complex deployments.
 
+### Getting Started - The High level architecture of a simple configuration
 The simplist scaffold configuraion results in the following deployment.
 
 ![](./diagrams/HLA.svg)
@@ -113,3 +115,6 @@ Scaffold will then create:
           | RISK:  Access to the configuration git hub repostory or to the assositaed service account on GCP would enable super user access to the system being deployed. This could be used for any action including, but not limited to, deployment of infrastrcuture and the extraction or modification of data. |
           |-|
 
+### Getting Started - Installing the simple deployment
+
+1.  Deploy the [GCP GitHUB app](https://github.com/apps/google-cloud-build) into the GCP organisation or user account. 

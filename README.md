@@ -201,4 +201,6 @@ Each repository can now be managed sepreatly. This could involve different team,
 
 ### The VPCSC plugin
 
+### The Private Service plugin 
+
 

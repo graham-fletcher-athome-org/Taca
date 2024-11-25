@@ -48,6 +48,7 @@ graph TD
       "actorFontWeight": "bold",
       "messageFontFamily": "monospace",
       "messageFontWeight": "bold",
+      "messageFontColor": "red",
       "noteFontWeight": "bolder"
     }
   }

@@ -143,9 +143,7 @@ Scaffold will then create:
 
 13.  Terrafrom will have created a new file, backend.tf.  Push this file along with changes to main.tf back to the remote confiuration repository.  Do not push and other terraform files such as the state files.
 
-14. Confirm that cloud build ran when the updated files were pushed to github.  Further changes to this reposity will be deployed on changes to the main branch.
-
-15. Delete the local version of the repository.  Further changes should be made via an IDE and pushed to the remote repository.  Changes will be deployed via cloud build.
+14. Delete the local version of the repository.  Further changes should be made via an IDE and pushed to the remote repository.  Changes will be deployed via cloud build. Cloud build should show a successfull run that resulted in no changes from the push in step 13. Confirm this build and test a change.  Changing  content_folder_names = ["test"] in main.tf will cause a sub-folder to be deployed. Removing it should revert the deployment to no folders.
 
 Additional terraform can be added to the configuration repository and will be actioned with updates to the system.  Infrastruture applied here will be deployed using a super user level permissions.  Development and deployemnt should be restriced to systems that require this level of access and be completed by suitibly tained and trusted staff.
 

@@ -123,7 +123,7 @@ Scaffold will then create:
 
 3.  Create a [PAC code](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) for the integration GitHUB account. 
 
-4.  Create a configuration repository. Copy the content of samples/simple sub director into the new repository
+4.  Create a configuration repository. Copy the content of samples/simple sub directory into the new repository
 
 5.  Authenticate with GCP.  Open the console command line.
 

@@ -24,4 +24,4 @@ The final section of this document details how we use scaffold to deliver a high
 ## Getting Started - A simple configuration
 
 
-![alt text](https://www.bbc.co.uk/sport/rugby-union/articles/c99r28yzdgro)
+![alt text](./Untitled Diagram.drawio.svg)

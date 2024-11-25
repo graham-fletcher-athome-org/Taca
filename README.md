@@ -42,7 +42,7 @@ The system should have access to this repository. This can either be access to t
 
 4. Configuration repository.
 
-The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism. The sample cofiguration repository should contain a file, main.tf.
+The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism. The sample cofiguration repository should contain a file, main.tf that holds the scaffold configutaion. Also required is the cloud build configuration in a file, Cloudbuild.yaml. Simple versions of the two viles are shown below. A more complete sample can be copied from the samples/simple directory in this repository.
 
 ```
 main.tf
@@ -59,7 +59,7 @@ module "secure" {
 }
 ```
 
-also required is the build configuration. A Simple build configuration for terrafrom is shown below:
+
 ```
 Cloudbuild.yaml
 
@@ -80,13 +80,11 @@ steps:
   entrypoint: "terraform"
   args: ["plan", "-out=tfplan"]
 
-# Step 5: Apply Terraform changes only on the main branch
+# Step 5: Apply Terraform changes
 - name: "hashicorp/terraform:latest"
   entrypoint: "terraform"
   args: ["apply", "-auto-approve", "tfplan"]
-
-logs_bucket: $_LOGBUCKET
-timeout: "1200s"  
+ 
 ```
 
 

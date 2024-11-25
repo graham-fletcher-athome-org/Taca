@@ -173,8 +173,32 @@ Scaffold creates very simple logical architectures.  The simple example, deliver
 
 ![](./diagrams/LA_Simple.svg)
 
-## Seperating concerns via multiple builders.
+### Seperating concerns via multiple builders.
 
 Scaffold is capable of connecting many repositories to the system and allocating them different IAM permissions. This is a very common use case. Each repository contains configuration that controlls different aspects fo the system.  In the example below,  the configuration repository controlls the base setup, incluing controlling the rights of the other repositories.  Seperate repositories have been defined that control IAM, Project Creation and Applicaion Infrastrcuture.
 
 ![](./diagrams/LA_4.svg)
+
+Each repository can now be managed sepreatly. This could involve different team, with different process and approvals cycles.  While each team has freedom to work in any way they wish, thir ability to inflence the system is defined by the IAM that has been alloced to thier repository.
+
+### Seperating concerns via multiple scopes.
+
+### Seperating concerns via secondary repositories.
+
+### Seperating concerns via multiple systems
+
+### Seperating concerns via secondary repositories.
+
+## Plugins
+
+### The IAM plugin
+
+### The policy plugin
+
+### The logging plugin
+
+### The sharedVPC plugin
+
+### The VPCSC plugin
+
+

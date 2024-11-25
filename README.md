@@ -187,6 +187,8 @@ Each repository can now be managed sepreatly. This could involve different team,
 
 ### Seperating concerns via secondary repositories.
 
+## Managing configuration outside the scope of the Main Folder (Org level)
+
 ## Plugins
 
 ### The IAM plugin
@@ -201,4 +203,12 @@ Each repository can now be managed sepreatly. This could involve different team,
 
 ### The Private Service plugin 
 
+## Architectural Patterns
+
+### PoC 
+#### Actors
+#### Indicators and Contra-indicators
+#### Logical Architecture
+#### System Configuration
+#### Resulting GCP and GITHub Configuation
 

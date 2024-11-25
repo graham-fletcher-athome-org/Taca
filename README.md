@@ -24,4 +24,4 @@ The final section of this document details how we use scaffold to deliver a high
 ## Getting Started - A simple configuration
 
 
-![alt text](http://yuml.me/diagram/scruffy/class/[Customer]<>1-*>[Order], [Customer]-[note: Aggregate Root {bg:cornsilk}])
+![alt text](https://www.bbc.co.uk/sport/rugby-union/articles/c99r28yzdgro)

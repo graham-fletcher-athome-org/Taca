@@ -11,7 +11,6 @@ variable "root_name" {
 
 variable "billing" {
   type    = string
-  default = "0119B9-36A410-C6B39B"
 }
 
 variable "content_folder_names" {

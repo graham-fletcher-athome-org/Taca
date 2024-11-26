@@ -54,7 +54,7 @@ module "secure" {
   github_app_intigration_id = null
   billing = "<YOUR BILLING ACCOUNT ID>"
   root_location = "organizations/<WHERE THE SYSTEM SHOULD BE SHOULD BE SEPLOYED>"
-  root_name = "BIP" 
+  root_name = "<YOUR ROOTNAME>" 
   bootstrap_repo = "https://github.com/graham-fletcher-athome-org/<LOCATION OF THE CONFIGURATION REPO>" 
   content_folder_names = []
   builders = [] 

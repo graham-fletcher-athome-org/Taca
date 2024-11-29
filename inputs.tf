@@ -24,6 +24,8 @@ variable "builders" {
     sa_name : string
     repo : string
     branch : string
+    ignored_files : string
+    included_files : string
     filename : string
     folder_ids : map(any)
     iam : list(object({

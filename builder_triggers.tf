@@ -4,6 +4,8 @@ locals {
     repo       = builder.repo
     branch     = builder.branch
     filename   = builder.filename
+    ignored_files = builder.ignored_files
+    included_files = builder.included_files
     folder_ids = builder.folder_ids
   } }
 
@@ -14,6 +16,8 @@ locals {
         repo       = var.bootstrap_repo
         branch     = "main"
         filename   = "Cloudbuild.yaml"
+        ignored_files = null
+        included_files = null
         folder_ids = { "root" = local.top_folder_id }
       }
   }) : local.triggers_d) : {}
@@ -39,6 +43,8 @@ resource "google_cloudbuild_trigger" "triggers" {
   location        = coalesce(var.location_build_triggers, var.default_location)
   project         = google_project.builder_project.project_id
   service_account = google_service_account.builder_service_accounts[each.value.sa_name].id
+  ignored_files   = each.value.ignored_files
+  included_files  = each.value.included_files
   repository_event_config {
     repository = google_cloudbuildv2_repository.github_repos[each.key].id
     push {

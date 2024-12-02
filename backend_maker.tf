@@ -9,4 +9,5 @@ terraform {
 }
 EOT
   filename = "./backend.tf"
+  depends_on = [google_storage_bucket.build_assets_buckets]
 }

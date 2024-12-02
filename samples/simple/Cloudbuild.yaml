@@ -1,21 +1,39 @@
 steps:
 
-# Step 2: Initialize Terraform
+# Step 1: Check format
+- name: "hashicorp/terraform:latest"
+  entrypoint: "terraform"
+  args: ["fmt", "-check", "-recursive"]
+
+# Step 2: Create backend
+- name: "hashicorp/terraform:latest"
+  entrypoint: "sh"
+  args:
+    - "-c"
+    - |
+      cat >backend.tf <<EOF
+      backend "gcs" {
+          bucket  = "${_BABUCKET}"
+          prefix  = "terraform/state"
+        }
+      EOF
+
+# Step 3: Initialize Terraform
 - name: "hashicorp/terraform:latest"
   entrypoint: "terraform"
   args: ["init"]
 
-# Step 3: Validate Terraform configuration
+# Step 4: Validate Terraform configuration
 - name: "hashicorp/terraform:latest"
   entrypoint: "terraform"
   args: ["validate"]
 
-# Step 4: Plan Terraform changes
+# Step 5: Plan Terraform changes
 - name: "hashicorp/terraform:latest"
   entrypoint: "terraform"
   args: ["plan", "-out=tfplan"]
 
-# Step 5: Apply Terraform changes only on the main branch
+# Step 6: Apply Terraform changes only on the main branch
 - name: "hashicorp/terraform:latest"
   entrypoint: "sh"
   args:

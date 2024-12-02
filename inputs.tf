@@ -77,7 +77,7 @@ variable "bootstrap_repo" {
 }
 
 variable "make_backend" {
-  type     = boolean
+  type     = bool
   default  = false
 }
 

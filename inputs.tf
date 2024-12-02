@@ -10,7 +10,7 @@ variable "root_name" {
 }
 
 variable "billing" {
-  type    = string
+  type = string
 }
 
 variable "content_folder_names" {

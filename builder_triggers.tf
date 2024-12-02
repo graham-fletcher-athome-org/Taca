@@ -1,24 +1,24 @@
 locals {
   triggers_d = { for builder in var.builders : builder.name => {
-    sa_name    = builder.sa_name
-    repo       = builder.repo
-    branch     = builder.branch
-    filename   = builder.filename
-    ignored_files = builder.ignored_files
+    sa_name        = builder.sa_name
+    repo           = builder.repo
+    branch         = builder.branch
+    filename       = builder.filename
+    ignored_files  = builder.ignored_files
     included_files = builder.included_files
-    folder_ids = builder.folder_ids
+    folder_ids     = builder.folder_ids
   } }
 
   triggers = var.github_app_intigration_id != null ? (var.bootstrap_repo != null ?
     merge(local.triggers_d, {
       bootstrap = {
-        sa_name    = "bootstrap"
-        repo       = var.bootstrap_repo
-        branch     = "main"
-        filename   = "Cloudbuild.yaml"
-        ignored_files = null
+        sa_name        = "bootstrap"
+        repo           = var.bootstrap_repo
+        branch         = "main"
+        filename       = "Cloudbuild.yaml"
+        ignored_files  = null
         included_files = null
-        folder_ids = { "root" = local.top_folder_id }
+        folder_ids     = { "root" = local.top_folder_id }
       }
   }) : local.triggers_d) : {}
 }

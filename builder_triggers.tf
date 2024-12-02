@@ -14,7 +14,7 @@ locals {
       bootstrap = {
         sa_name        = "bootstrap"
         repo           = var.bootstrap_repo
-        branch         = "main"
+        branch         = "*"
         filename       = "Cloudbuild.yaml"
         ignored_files  = null
         included_files = null

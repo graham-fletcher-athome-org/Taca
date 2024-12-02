@@ -1,7 +1,7 @@
 
 module "logbucket_names" {
   for_each        = local.triggers
-  source          = "./bucket_name"
+  source          = "./nameing_conventions/bucket_name"
   name            = format("log-%s", each.key)
   foundation_code = local.foundation_code
 }
@@ -28,7 +28,7 @@ resource "google_storage_bucket_iam_member" "log_bucket_iam" {
 
 module "build_assets_bucket_names" {
   for_each        = local.triggers
-  source          = "./bucket_name"
+  source          = "./nameing_conventions/bucket_name"
   name            = format("ba-%s", each.key)
   foundation_code = local.foundation_code
 }

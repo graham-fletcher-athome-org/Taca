@@ -1,5 +1,5 @@
 module "project_name_covention" {
-  source          = "./project_name_and_id"
+  source          = "./nameing_conventions/project_name_and_id"
   foundation_code = local.foundation_code
   name            = "builder"
 }

@@ -12,10 +12,12 @@ steps:
     - "-c"
     - |
       cat >backend.tf <<EOF
-      backend "gcs" {
-          bucket  = "${_BABUCKET}"
-          prefix  = "terraform/state"
-        }
+      terraform {
+        backend "gcs" {
+            bucket  = "${_BABUCKET}"
+            prefix  = "terraform/state"
+          }
+      }
       EOF
 
 # Step 3: Initialize Terraform

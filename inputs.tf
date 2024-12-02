@@ -76,3 +76,8 @@ variable "bootstrap_repo" {
   nullable = true
 }
 
+variable "make_backend" {
+  type     = boolean
+  default  = false
+}
+

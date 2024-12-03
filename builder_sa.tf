@@ -12,3 +12,7 @@ resource "google_service_account" "builder_service_accounts" {
   account_id = each.value
   project    = google_project.builder_project.project_id
 }
+
+output "builder_sa" {
+  value = google_service_account.builder_service_accounts
+}

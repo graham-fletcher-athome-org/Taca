@@ -15,7 +15,7 @@ locals {
         repo           = var.bootstrap_repo
         branch         = ".*"
         filename       = "cloudbuild.yaml"
-        ignored_files  = ["**/**"]
+        ignored_files  = null
         included_files = null
         folder_ids     = { "root" = local.top_folder_id }
       }

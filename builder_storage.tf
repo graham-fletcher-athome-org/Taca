@@ -21,7 +21,7 @@ resource "google_storage_bucket" "log_buckets" {
 resource "google_storage_bucket_iam_member" "log_bucket_iam" {
   for_each = local.triggers
   bucket   = google_storage_bucket.log_buckets[each.key].id
-  role     = "roles/storage.objectCreator"
+  role     = "roles/storage.admin"
   member   = format("serviceAccount:%s", google_service_account.builder_service_accounts[each.value.sa_name].email)
 }
 

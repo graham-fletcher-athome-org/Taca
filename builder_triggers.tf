@@ -9,7 +9,7 @@ locals {
     folder_ids     = builder.folder_ids
   } }
 
-  triggers = merge(local.triggers_d, (var.github_app_intigration_id != null ? {
+  triggers = merge(local.triggers_d, ((var.github_app_intigration_id != null && var.bootstrap_repo != null) ? {
     bootstrap = {
         sa_name        = "bootstrap"
         repo           = var.bootstrap_repo

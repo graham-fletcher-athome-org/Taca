@@ -16,7 +16,7 @@ locals {
         branch         = ".*"
         filename       = "cloudbuild.yaml"
         ignored_files  = null
-        included_files = null
+        included_files = "*"
         folder_ids     = { "root" = local.top_folder_id }
       }
     } : {}))

@@ -181,6 +181,10 @@ Each repository can now be managed sepreatly. This could involve different team,
 
 ### Seperating concerns via multiple scopes.
 
+![](./diagrams/LA_4scopes.svg)
+
+![](./diagrams/LA_5scopes.svg)
+
 ### Seperating concerns via secondary repositories.
 
 ### Seperating concerns via multiple systems

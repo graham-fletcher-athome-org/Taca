@@ -9,9 +9,8 @@ locals {
     folder_ids     = builder.folder_ids
   } }
 
-  triggers = var.github_app_intigration_id != null ? (var.bootstrap_repo != null ?
-    merge(local.triggers_d, {
-      bootstrap = {
+  triggers = merge(local.trigger_d, (var.github_app_intigration_id != null ? {
+    bootstrap = {
         sa_name        = "bootstrap"
         repo           = var.bootstrap_repo
         branch         = ".*"
@@ -20,7 +19,7 @@ locals {
         included_files = null
         folder_ids     = { "root" = local.top_folder_id }
       }
-  }) : local.triggers_d) : {}
+    } : {}))
 }
 output "joe" {
   value = local.triggers

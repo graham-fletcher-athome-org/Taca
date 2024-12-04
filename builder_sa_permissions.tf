@@ -22,7 +22,7 @@ resource "google_folder_iam_member" "folder" {
 
 resource "google_organization_iam_member" "org" {
   for_each = { for x in local.sa_roles_list : format("%s.%s.%s", x.folder_short, x.role, x.sa_short) => x if startswith(x.folder_short,"org")}
-  org_id   = each.value.folder
+  org_id   = trimprefix(each.value.folder,"orgaizations/")
   role     = each.value.role
   member   = each.value.sa
 }

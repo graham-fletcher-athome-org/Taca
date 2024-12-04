@@ -20,7 +20,7 @@ resource "google_folder_iam_member" "folder" {
   member   = each.value.sa
 }
 
-resource "google_folder_org_member" "org" {
+resource "google_organization_iam_member" "org" {
   for_each = { for x in local.sa_roles_list : format("%s.%s.%s", x.folder_short, x.role, x.sa_short) => x if startswith(x.folder_short,"org")}
   org_id   = each.value.folder
   role     = each.value.role

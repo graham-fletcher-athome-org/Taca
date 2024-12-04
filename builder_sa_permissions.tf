@@ -14,8 +14,15 @@ locals {
 }
 
 resource "google_folder_iam_member" "folder" {
-  for_each = { for x in local.sa_roles_list : format("%s.%s.%s", x.folder_short, x.role, x.sa_short) => x }
+  for_each = { for x in local.sa_roles_list : format("%s.%s.%s", x.folder_short, x.role, x.sa_short) => x if startswith(each.value.folder,"folder")}
   folder   = each.value.folder
+  role     = each.value.role
+  member   = each.value.sa
+}
+
+resource "google_folder_org_member" "org" {
+  for_each = { for x in local.sa_roles_list : format("%s.%s.%s", x.folder_short, x.role, x.sa_short) => x if startswith(each.value.folder,"org")}
+  org_id   = each.value.folder
   role     = each.value.role
   member   = each.value.sa
 }

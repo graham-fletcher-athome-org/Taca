@@ -10,9 +10,6 @@ locals{
                     ]
                 ]) : format("%s%s",x.name,x.role) => x}
 
-    iam_keys = toset([for k,v in local.iam_dict:k])
+    
 }
 
-output "joe" {
-    value = local.iam_keys
-}

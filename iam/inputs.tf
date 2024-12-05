@@ -1,5 +1,8 @@
 variable "target"{
-    type = object(any)
+    type = object({
+        id: string
+        type:   string
+    })
 }
 
 variable "iam" {

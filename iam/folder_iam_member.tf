@@ -9,8 +9,5 @@ locals{
   member   = format("serviceAccount:%s",each.value.sa)
 }*/
 
-output "bob" {
-  value = local.iam_apply
-}
 
 

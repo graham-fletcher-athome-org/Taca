@@ -5,8 +5,9 @@ variable "managed_environment" {
         builder_project : string,
         default_location : string,
         location_build_triggers : string,
-        foundation_code :string
-        git_hub_enabled : bool
+        foundation_code :string,
+        git_hub_enabled : bool,
+        pac : string
     })
 }
 
@@ -16,6 +17,7 @@ variable "name" {
 
 variable "uri" {
     type = string
+    default=null
 }
 
 variable "location_log_buckets" {
@@ -46,4 +48,9 @@ variable "included_files" {
 variable "ignored_files" {
   type    = list(string)
   default = null
+}
+
+variable "github_org" {
+  type   = string
+  default = "graham-fletcher-athome-org"
 }

@@ -56,7 +56,7 @@ resource "google_cloudbuildv2_repository" "github_repos" {
   location          = coalesce(var.managed_environment.location_build_triggers, var.managed_environment.default_location)
   name              = var.name
   parent_connection = var.managed_environment.git_hub_connection
-  remote_uri        = var.uri
+  remote_uri        = local.git_uri
 }
 
 resource "google_cloudbuild_trigger" "triggers" {

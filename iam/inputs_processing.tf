@@ -9,7 +9,5 @@ locals{
                         ]
                     ]
                 ]) : format("%s%s",x.name,x.role) => x}
-
-    
 }
 

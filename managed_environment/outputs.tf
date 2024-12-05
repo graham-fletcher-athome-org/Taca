@@ -28,5 +28,5 @@ output "foundation_code" {
 }
 
 output "pac" {
-    value = var.github_app_intigration_id != null ? google_secret_manager_secret_version.latest_pac.secret_data : null
+    value = var.github_app_intigration_id != null ? data.google_secret_manager_secret_version.latest_pac.secret_data : null
 }

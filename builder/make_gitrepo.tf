@@ -10,6 +10,6 @@ resource "github_repository" "repo" {
 }
 
 locals{
-    git_uri = var.uri == null ? github_repository.repo[0].html_uri : var.uri
+    git_uri = var.uri == null ? github_repository.repo[0].html_url : var.uri
 }
 

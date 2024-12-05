@@ -60,7 +60,7 @@ resource "google_cloudbuildv2_repository" "github_repos" {
 }
 
 resource "google_cloudbuild_trigger" "triggers" {
-  count           = var.managed_environment.git_hub_enabled != null ? 1 : 0
+  count           = var.managed_environment.git_hub_enabled ? 1 : 0
   name            = var.name
   location        = coalesce(var.managed_environment.location_build_triggers, var.managed_environment.default_location)
   project         = var.managed_environment.builder_project

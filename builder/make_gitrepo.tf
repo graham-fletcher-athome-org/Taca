@@ -1,6 +1,6 @@
 provider "github" {
   token = var.managed_environment.pac
-  owner = var.git_hub_org
+  owner = var.github_org
 }
 
 resource "github_repository" "repo" {

@@ -1,7 +1,4 @@
-provider "github" {
-  token = var.managed_environment.pac
-  owner = var.github_org
-}
+
 
 resource "github_repository" "repo" {
   count = var.uri == null ? 1 : 0

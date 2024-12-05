@@ -8,7 +8,7 @@ locals {
 
 module "folder_name" {
   count           = var.root_name == null ? 0 : 1
-  source          = "./nameing_conventions/folder_name"
+  source          = "../nameing_conventions/folder_name"
   name            = var.root_name
   foundation_code = local.foundation_code
 }

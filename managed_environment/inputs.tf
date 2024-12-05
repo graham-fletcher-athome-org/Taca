@@ -23,3 +23,23 @@ variable "github_app_intigration_id" {
   default  = null
   nullable = true
 }
+
+variable "default_location" {
+  type    = string
+  default = "europe-west2"
+}
+
+variable "location_log_buckets" {
+  type    = string
+  default = null
+}
+
+variable "location_ba_buckets" {
+  type    = string
+  default = null
+}
+
+variable "location_build_triggers" {
+  type    = string
+  default = null
+}

@@ -6,6 +6,7 @@ resource "google_secret_manager_secret" "github_token_secret" {
   replication {
     auto {}
   }
+  depends_on = [google_project_service.sm_service]
 }
 
 resource "google_secret_manager_secret_version" "github_token_secret_version" {
@@ -26,6 +27,12 @@ resource "google_secret_manager_secret_iam_policy" "policy" {
   policy_data = data.google_iam_policy.serviceagent_secretAccessor.policy_data
 }
 
+data "google_secret_manager_secret_version" "latest_pac" {
+  secret     = google_secret_manager_secret.github_token_secret.id
+  project    = google_project.builder_project.project_id
+  depends_on = [google_secret_manager_secret_version.github_token_secret_version]
+}
+
 resource "google_cloudbuildv2_connection" "connection" {
   count    = var.github_app_intigration_id != null ? 1 : 0
   project  = google_project.builder_project.id
@@ -35,7 +42,7 @@ resource "google_cloudbuildv2_connection" "connection" {
   github_config {
     app_installation_id = var.github_app_intigration_id
     authorizer_credential {
-      oauth_token_secret_version = data.google_secret_manager_secret_version.latest_pac[0].id
+      oauth_token_secret_version = data.google_secret_manager_secret_version.latest_pac.id
     }
   }
 

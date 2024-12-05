@@ -8,6 +8,6 @@ module "folder_name_content" {
 resource "google_folder" "content_folder" {
   for_each            = toset(var.content_folder_names)
   display_name        = module.folder_name_content[each.value].name
-  parent              = local.top_folder_id
+  parent              = local.parent_id
   deletion_protection = false
 }

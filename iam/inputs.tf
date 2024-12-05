@@ -1,5 +1,5 @@
 variable "target"{
-    type = string
+    type = object(any)
 }
 
 variable "iam" {

@@ -49,4 +49,6 @@ resource "google_cloudbuildv2_connection" "connection" {
     }
   }
 
+  depends_on = [google_project_service.cloud_build_service]
+
 }

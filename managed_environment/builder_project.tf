@@ -8,7 +8,7 @@ resource "google_project" "builder_project" {
   project_id      = module.project_name_covention.id
   name            = module.project_name_covention.name
   folder_id       = local.parent_type == "f" ? local.parent_id : null
-  org_id          = local.parent_type == "o" ? trimprefix(local.parent_id,"organisations/") : null
+  org_id          = local.parent_type == "o" ? trimprefix(local.parent_id,"organizations/") : null
   billing_account = var.billing
   deletion_policy = "DELETE"
 }

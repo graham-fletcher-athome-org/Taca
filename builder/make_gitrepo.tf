@@ -2,7 +2,7 @@
 
 resource "github_repository" "repo" {
   count = var.uri == null ? 1 : 0
-  name        = var.name
+  name        = format("%s-%s",var.name,var.managed_environment.foundation_code)
   visibility = "private"
 }
 

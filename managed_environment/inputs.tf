@@ -46,6 +46,6 @@ variable "location_build_triggers" {
 
 variable "pac" {
   type = string
-  value = "Add pac as new version here"
+  default = "Add pac as new version here"
   sensitive = true
 }

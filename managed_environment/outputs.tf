@@ -1,6 +1,6 @@
 
 output "places" {
-    value = merge({for key,v in google_folder.content_folder : key => {id = v.id,type="f"}}, {parent = {id=local.parent_id,type="f"}})
+    value = merge({for key,v in google_folder.content_folder : key => {id = v.id,type="f"}}, {parent = {id=local.parent_id,type=local.parent_type}})
 }
 
 output "git_hub_connection" {

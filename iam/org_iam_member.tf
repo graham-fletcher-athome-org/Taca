@@ -4,7 +4,7 @@ locals{
 }
 resource "google_organization_iam_member" "org_member" {
   for_each = local.iam_apply_org
-  org_id   = trimprefix(var.target,"organizations/")
+  org_id   = trimprefix(var.target.id,"organizations/")
   role     = each.value.role
   member   = format("serviceAccount:%s",each.value.sa)
 }

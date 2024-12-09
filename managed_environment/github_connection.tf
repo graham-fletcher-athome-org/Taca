@@ -24,12 +24,12 @@ data "google_iam_policy" "serviceagent_secretAccessor" {
     members = [format("serviceAccount:service-%s@gcp-sa-cloudbuild.iam.gserviceaccount.com", google_project.builder_project.number)]
   }
 }
-/*
+
 resource "google_secret_manager_secret_iam_policy" "policy" {
   project     = google_secret_manager_secret.github_token_secret.project
   secret_id   = google_secret_manager_secret.github_token_secret.secret_id
   policy_data = data.google_iam_policy.serviceagent_secretAccessor.policy_data
-}*/
+}
 
 data "google_secret_manager_secret_version" "latest_pac" {
   secret     = google_secret_manager_secret.github_token_secret.id
@@ -50,6 +50,6 @@ resource "google_cloudbuildv2_connection" "connection" {
     }
   }
 
-  depends_on = [google_project_service.cloud_build_service]
+  depends_on = [google_project_service.cloud_build_service,google_secret_manager_secret_iam_policy.policy"]
 
 }

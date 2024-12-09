@@ -50,6 +50,6 @@ resource "google_cloudbuildv2_connection" "connection" {
     }
   }
 
-  depends_on = [google_project_service.cloud_build_service,google_secret_manager_secret_iam_policy.policy"]
+  depends_on = [google_project_service.cloud_build_service,google_secret_manager_secret_iam_policy.policy]
 
 }

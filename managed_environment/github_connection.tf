@@ -31,6 +31,12 @@ resource "google_secret_manager_secret_iam_policy" "policy" {
   policy_data = data.google_iam_policy.serviceagent_secretAccessor.policy_data
 }
 
+resource "time_sleep" "policy_pause" {
+  depends_on = [google_secret_manager_secret_iam_policy.policy]
+
+  create_duration = "10s"
+}
+
 data "google_secret_manager_secret_version" "latest_pac" {
   secret     = google_secret_manager_secret.github_token_secret.id
   project    = google_project.builder_project.project_id
@@ -50,7 +56,7 @@ resource "google_cloudbuildv2_connection" "connection" {
     }
   }
 
-  depends_on = [google_project_service.cloud_build_service,google_secret_manager_secret_iam_policy.policy]
+  depends_on = [google_project_service.cloud_build_service,time_sleep.policy_pause]
 
 }
 

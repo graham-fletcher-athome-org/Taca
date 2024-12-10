@@ -104,6 +104,9 @@ module "iam" {
   depends_on = [module.testing, module.boot_strap]
 }
 
+/*Terraform does not allow modules to define providers. Therefore the github provider needs to be configured 
+at this level with details or the PAT token and organisation to manage. The PAT token can be obtained from 
+secret manager, the organisation to manage must be provided*/
 data "google_secret_manager_secret_version" "latest_pac" {
   secret     = module.testing.github_identity_token_secret
   project    = module.testing.builder_project
@@ -112,12 +115,9 @@ data "google_secret_manager_secret_version" "latest_pac" {
 
 provider "github" {
   token = module.testing.git_hub_enabled ? data.google_secret_manager_secret_version.latest_pac.secret_data : null
-  
+  owner = "www.github.com/your_githuborg/"
 }
 ```
-
-
-
 
 
 Taca will then create:
@@ -173,10 +173,16 @@ terraform apply -var git_identity_token=<GitHUB PAT> -var create_backend=true
 terraform init
 ```
 
-10. Terrafrom will have also created a new repository
+10. Terrafrom will have also created a new repository. This should be linked to your current directory.
+```
+git init
+git remote add "origin" http://github.com<new repo>.git
+git add --all
+git commit -m "new"
+git push origin master
+```
 
-
-14. Delete the local version of the repository.  Further changes should be made via an IDE and pushed to the remote repository.  Changes will be deployed via cloud build. Cloud build should show a successfull run that resulted in no changes from the push in step 13. Confirm this build and test a change.  Changing  content_folder_names = ["test"] in main.tf will cause a sub-folder to be deployed. Removing it should revert the deployment to no folders.
+11. Further changes should be made via an IDE and pushed to the remote repository.  Changes will be deployed via cloud build. Cloud build should show a successfull run that resulted in no changes from the push in step 10. Confirm this build and test a change.  Changing  content_folder_names = ["test"] in main.tf will cause a sub-folder to be deployed. Removing it should revert the deployment to no folders.
 
 Additional terraform can be added to the configuration repository and will be actioned with updates to the system.  Infrastruture applied here will be deployed using a super user level permissions.  Development and deployemnt should be restriced to systems that require this level of access and be completed by suitibly tained and trusted staff.
 

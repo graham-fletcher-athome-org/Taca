@@ -188,22 +188,6 @@ Additional terraform can be added to the configuration repository and will be ac
 
 Refer to later sections in this document for design approaches and instructions for creating additional builders with lower privilage levels for application and service deploymet.
 
-### Getting Started - Deleting the simple deployment
-
-1.  Remove any additional infrastrcutre that has been deployed, either by the addition of other builders or by adding terrafrom to the configuration repository.
-
-2. Authenticate with GCP.  Open the console command line.
-
-3.  Clone the configuration repository.
-
-4. Init the terraform
-
-5. Delete the file backend.tf
-
-6. Re-init the terrafrom.  This will move the terraform statefiles out of gcp and onto your teramal.
-
-7. Destory the terraform
-
 ## Architecting Taca deployments
 
 Taca creates very simple logical architectures.  The simple example, delivers a logical architecture as shown below. The configuration repo can be considered to be controlling the "main folder". Its changes are delivered using the owner and folderAdmin privilages. This means is has effective "super admin" rights over that folder and can make almost any changes. This provides a simple environment for very small PoC type exercises, but is unsuitable for more comple deployemnts.
@@ -218,19 +202,79 @@ Taca is capable of connecting many repositories to the system and allocating the
 
 Each repository can now be managed sepreatly. This could involve different team, with different process and approvals cycles.  While each team has freedom to work in any way they wish, thir ability to inflence the system is defined by the IAM that has been alloced to thier repository.
 
+In every case,  where multiple repositories as described, these could be replaced with multiple folders on the same repository, managed through code ownership. Consideration should be given to the competing complexities of multiple repositories vs managing branches across multiple folders on the same repository.
+
 ### Seperating concerns via multiple scopes.
 
 ![](./diagrams/LA_4scopes.svg)
 
+In this example the Configuration repo and IAM repo contol at the root of the managed environment, while the project factory and application repositoies are limited to F1 folder.  This is a very common pattern, where application level concerns operate in sub folders while adminsitrative functions cover the whole managed environment.
+
 ![](./diagrams/LA_5scopes.svg)
-
-### Seperating concerns via secondary repositories.
-
-### Seperating concerns via multiple systems
-
-### Seperating concerns via secondary repositories.
+This can be extended to cover multiple applications each with its own build pipline. There are now 3 levels of permissions. Configuration and IAM is defined on a whole managed environment basis. Projects are created, but can only be deployed into application sub folders. Application teams have their own piplines that can only affect projects in thier own folders.
 
 ## Managing configuration outside the scope of the Main Folder (Org level)
+Creating a managed enviroment at the org level without a top level folder results in a managed environment with a builder that can access an org level scope.  Allocating the builder appropriate priviliges generates and org level manager. For example, to create a managed environment to manage org policy only at an org level use the following configuration. This configuration assumes that the org policy engine will run within a sepeare pipline to the self hosted bootstrap. :
+
+```
+main.tf
+module "demo_managed_environment" {
+  source                    = "github.com/graham-fletcher-athome-org/Taca//managed_environment/?ref=v2"
+  root_location             = "organizations/xxxxxxxx" 
+  billing                   = "<billing account id>"
+  github_app_intigration_id = <github integration id>
+  git_identity_token_secret = var.git_identity_token
+}
+ 
+module "boot_strap" {
+  source              = "github.com/graham-fletcher-athome-org/Taca//builder/?ref=v2"
+  managed_environment = module.testing
+  name                = "bootstrap"
+  depends_on          = [module.testing]
+  create_backend      = var.create_backend
+}
+
+module "policy_builder" {
+  source              = "github.com/graham-fletcher-athome-org/Taca//builder/?ref=v2"
+  managed_environment = module.testing
+  name                = "policy_engine"
+  depends_on          = [module.testing]
+}
+
+module "iam" {
+  source = "github.com/graham-fletcher-athome-org/Taca//iam/?ref=v2"
+  target = module.testing.places.parent
+  iam = [{
+    builders : [module.boot_strap]
+    roles : ["roles/resourcemanager.orgAdmin", "roles/owner"]
+  }]
+  depends_on = [module.testing, module.boot_strap]
+}
+
+module "iam" {
+  source = "github.com/graham-fletcher-athome-org/Taca//iam/?ref=v2"
+  target = module.testing.places.parent
+  iam = [{
+    builders : [module.policy_builder]
+    roles : ["roles/resourcemanager.orgPolicyAdmin"]
+  }]
+  depends_on = [module.testing, module.boot_strap]
+}
+
+/*Terraform does not allow modules to define providers. Therefore the github provider needs to be configured 
+at this level with details or the PAT token and organisation to manage. The PAT token can be obtained from 
+secret manager, the organisation to manage must be provided*/
+data "google_secret_manager_secret_version" "latest_pac" {
+  secret     = module.testing.github_identity_token_secret
+  project    = module.testing.builder_project
+  depends_on = [module.testing]
+}
+
+provider "github" {
+  token = module.testing.git_hub_enabled ? data.google_secret_manager_secret_version.latest_pac.secret_data : null
+  owner = "www.github.com/your_githuborg/"
+}
+```
 
 ## Plugins
 

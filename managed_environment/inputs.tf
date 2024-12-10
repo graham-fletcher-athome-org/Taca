@@ -44,8 +44,8 @@ variable "location_build_triggers" {
   default = null
 }
 
-variable "pac" {
+variable "git_identity_token" {
   type = string
-  default = "Add pac as new version here"
+  default = null
   sensitive = true
 }

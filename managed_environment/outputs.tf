@@ -27,6 +27,6 @@ output "foundation_code" {
     value = local.foundation_code
 }
 
-output "pac" {
-    value = data.google_secret_manager_secret_version.latest_pac.secret_data
+output "github_identity_token_secret" {
+    value = google_secret_manager_secret.github_token_secret.id
 }

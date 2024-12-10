@@ -44,20 +44,36 @@ The system should have access to this repository. This can either be access to t
 
 4. Configuration repository.
 
-The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism. The sample cofiguration repository should contain a file, main.tf that holds the scaffold configutaion. Also required is the cloud build configuration in a file, Cloudbuild.yaml. Simple versions of the two viles are shown below. A more complete sample can be copied from the samples/simple directory in this repository.
+The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism. The sample cofiguration repository contains the files deiscced below.
 
 ```
 main.tf
 
-module "secure" {
-  source = "https://github.com/<LOCATION OF SCAFFOLD REPO>.rep"
-  github_app_intigration_id = null
-  billing = "<YOUR BILLING ACCOUNT ID>"
-  root_location = "organizations/<WHERE THE SYSTEM SHOULD BE SHOULD BE SEPLOYED>"
-  root_name = "<YOUR ROOTNAME>" 
-  bootstrap_repo = "https://github.com/graham-fletcher-athome-org/<LOCATION OF THE CONFIGURATION REPO>" 
-  content_folder_names = []
-  builders = [] 
+module "testing" {
+  source                    = "github.com/graham-fletcher-athome-org/scaffold//managed_environment/?ref=v2"
+  root_location             = "<root location>"
+  root_name                 = "v2test"
+  billing                   = "<billing account id>"
+  content_folder_names      = []
+  github_app_intigration_id = <github integration id>
+  git_identity_token        = var.git_identity_token
+}
+
+module "boot_strap" {
+  source              = "github.com/graham-fletcher-athome-org/scaffold//builder/?ref=v2"
+  managed_environment = module.testing
+  name                = "bootstrap"
+  depends_on          = [module.testing]
+}
+
+module "iam" {
+  source = "github.com/graham-fletcher-athome-org/scaffold//iam/?ref=v2"
+  target = module.testing.places.parent
+  iam = [{
+    builders : [module.boot_strap]
+    roles : ["roles/resourcemanager.folderAdmin", "roles/owner"]
+  }]
+  depends_on = [module.testing, module.boot_strap]
 }
 ```
 

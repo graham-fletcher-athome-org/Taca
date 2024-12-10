@@ -214,25 +214,11 @@ In this example the Configuration repo and IAM repo contol at the root of the ma
 This can be extended to cover multiple applications each with its own build pipline. There are now 3 levels of permissions. Configuration and IAM is defined on a whole managed environment basis. Projects are created, but can only be deployed into application sub folders. Application teams have their own piplines that can only affect projects in thier own folders.
 
 ## Managing configuration outside the scope of the Main Folder (Org level)
-Creating a managed enviroment at the org level without a top level folder results in a managed environment with a builder that can access an org level scope.  Allocating the builder appropriate priviliges generates and org level manager. For example, to create a managed environment to manage org policy only at an org level use the following configuration. This configuration assumes that the org policy engine will run within a sepeare pipline to the self hosted bootstrap. :
+Creating a managed enviroment at the org level without a top level folder results in a managed environment with a builder that can access an org level scope.  Allocating the builder appropriate priviliges generates and org level manager. For example, to create a managed environment to manage org policy only at an org level use the following additional configuration. This configuration assumes that the org policy engine will run within a sepeare pipline to the self hosted bootstrap. :
 
 ```
-main.tf
-module "demo_managed_environment" {
-  source                    = "github.com/graham-fletcher-athome-org/Taca//managed_environment/?ref=v2"
-  root_location             = "organizations/xxxxxxxx" 
-  billing                   = "<billing account id>"
-  github_app_intigration_id = <github integration id>
-  git_identity_token_secret = var.git_identity_token
-}
- 
-module "boot_strap" {
-  source              = "github.com/graham-fletcher-athome-org/Taca//builder/?ref=v2"
-  managed_environment = module.testing
-  name                = "bootstrap"
-  depends_on          = [module.testing]
-  create_backend      = var.create_backend
-}
+policy.tf
+
 
 module "policy_builder" {
   source              = "github.com/graham-fletcher-athome-org/Taca//builder/?ref=v2"
@@ -241,17 +227,7 @@ module "policy_builder" {
   depends_on          = [module.testing]
 }
 
-module "iam" {
-  source = "github.com/graham-fletcher-athome-org/Taca//iam/?ref=v2"
-  target = module.testing.places.parent
-  iam = [{
-    builders : [module.boot_strap]
-    roles : ["roles/resourcemanager.orgAdmin", "roles/owner"]
-  }]
-  depends_on = [module.testing, module.boot_strap]
-}
-
-module "iam" {
+module "Policy_iam" {
   source = "github.com/graham-fletcher-athome-org/Taca//iam/?ref=v2"
   target = module.testing.places.parent
   iam = [{
@@ -261,19 +237,7 @@ module "iam" {
   depends_on = [module.testing, module.boot_strap]
 }
 
-/*Terraform does not allow modules to define providers. Therefore the github provider needs to be configured 
-at this level with details or the PAT token and organisation to manage. The PAT token can be obtained from 
-secret manager, the organisation to manage must be provided*/
-data "google_secret_manager_secret_version" "latest_pac" {
-  secret     = module.testing.github_identity_token_secret
-  project    = module.testing.builder_project
-  depends_on = [module.testing]
-}
 
-provider "github" {
-  token = module.testing.git_hub_enabled ? data.google_secret_manager_secret_version.latest_pac.secret_data : null
-  owner = "www.github.com/your_githuborg/"
-}
 ```
 
 ## Plugins

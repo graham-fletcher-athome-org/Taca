@@ -1,6 +1,6 @@
-# SCAFFOLD
+# Taca
 
-Scaffold is a minimal set of terraform required to deploy a "managed environemnt" into a GCP org or folder:
+Taca is a minimal set of terraform required to deploy a "managed environemnt" into a GCP org or folder:
 1. An optional folder to contain everything else
 2. A project with cloud build enabled
 3. A link to github
@@ -12,20 +12,20 @@ Scaffold is a minimal set of terraform required to deploy a "managed environemnt
        specified branch on a github repository. Where the resulting invocation
        uses the builders service account.
 
-Scaffold was origonally envisioned as a basis for deploying GCP foundations, the layer that provides the secruity framework.  It is by design, very simple and low complexity. However, this allows a large range of different foundations, or other services to be built on top of scaffold. A managed environemnt can be considered an abstract class. It can be built on to deliver a small foundation, a large secure foundation or a build pipline for a single project.  A managed environment is the underlaying frammework on which we build any of these management layers.
+Taca was origonally envisioned as a basis for deploying GCP foundations, the layer that provides the secruity framework.  It is by design, very simple and low complexity. However, this allows a large range of different foundations, or other services to be built on top of Taca. A managed environemnt can be considered an abstract class. It can be built on to deliver a small foundation, a large secure foundation or a build pipline for a single project.  A managed environment is the underlaying frammework on which we build any of these management layers.
 
 The following sections give:
-1. Instructions for a simple deployment of scaffold.
-2. A full set of documentation for all of the options availible within scaffold.
+1. Instructions for a simple deployment of Taca.
+2. A full set of documentation for all of the options availible within Taca.
 3. A set of sample use-cases and matching configurations.
 
-The final section of this document details how we use scaffold to deliver a highly secure foundation to secure GCP to the very highest standards.
+The final section of this document details how we use Taca to deliver a highly secure foundation to secure GCP to the very highest standards.
 
 ## Getting Started - A simple configuration
 This section oulines what a simple configuration delivers, and the infrastructure that will be deployed. It then provdes instructions on how to deliver the simple configuration. The simple configuration should always be considered a fist step that will be modified to produce more complex solutions.  Delivering the simple configuration will prove the github integration which is key to more complex deployments.
 
 ### Getting Started - The High level architecture of a simple configuration
-The simplist scaffold configuraion results in the following managed enviornment.
+The simplist Taca configuraion results in the following managed enviornment.
 
 ![](./diagrams/HLA.svg)
 
@@ -38,11 +38,11 @@ This is required to process access to GitHUB from gcp and to enable branch merge
 
 A Git hub user account is required to process automation actions. This should not generally be a user account, but should be an dedicated account. Log onto GitHUB and generate a Peronal Access Token (PAT).  A PAT can be used to access github and authenticate as the assosiated user ID. The PAT should be carefully protected.  Within GCP the PAT is stored in secret manager and is not stored as part of any terrafrom statefile.
 
-3. Scaffold Repository
+3. Taca Repository
 
 The system should have access to this repository. This can either be access to the public repository or to a private clone.
 
-The configuration for this example can be found in the /samples/simple/ directory of the scaffold repository.
+The configuration for this example can be found in the /samples/simple/ directory of the Taca repository.
 
 
 ```
@@ -50,7 +50,7 @@ main.tf
 
 /*Create the simple managed environment*/
 module "demo_managed_environment" {
-  source                    = "github.com/graham-fletcher-athome-org/scaffold//managed_environment/?ref=v2"
+  source                    = "github.com/graham-fletcher-athome-org/Taca//managed_environment/?ref=v2"
 
   /*Root location is the place on gcp where the managed environment should be created. It 
   should be either organizations/xxxxxx  or folders/xxxxx depending on weither the managed 
@@ -78,15 +78,16 @@ module "demo_managed_environment" {
 /*Create a builder with a new repository called bootstrap. This will be used to self-host 
 the managed environments own configuration*/
 module "boot_strap" {
-  source              = "github.com/graham-fletcher-athome-org/scaffold//builder/?ref=v2"
+  source              = "github.com/graham-fletcher-athome-org/Taca//builder/?ref=v2"
   managed_environment = module.testing
   name                = "bootstrap"
   depends_on          = [module.testing]
+  create_backend      = var.create_backend
 }
 
 /*Allocate the bootstrap builder privilages nescessary to self-build*/
 module "iam" {
-  source = "github.com/graham-fletcher-athome-org/scaffold//iam/?ref=v2"
+  source = "github.com/graham-fletcher-athome-org/Taca//iam/?ref=v2"
 
   /*Iam can be applied to "Parent" which is the "root_name" bounding folder or the 
   "root_location" if no bounding folder was requested. Iam can also be applied to any 
@@ -102,11 +103,24 @@ module "iam" {
   }]
   depends_on = [module.testing, module.boot_strap]
 }
+
+data "google_secret_manager_secret_version" "latest_pac" {
+  secret     = module.testing.github_identity_token_secret
+  project    = module.testing.builder_project
+  depends_on = [module.testing]
+}
+
+provider "github" {
+  token = module.testing.git_hub_enabled ? data.google_secret_manager_secret_version.latest_pac.secret_data : null
+  
+}
 ```
 
 
 
-Scaffold will then create:
+
+
+Taca will then create:
 
 1. Main folder 
 
@@ -118,14 +132,16 @@ Scaffold will then create:
 
    1. Secret manager
     
-      Secret Manager is used to hold a GitHUB user PAC code. PAC codes are issed by GIT hub and allow the GCP service accounts to authenticate as the automation user account from GitHUB.
+      Secret Manager is used to hold a GitHUB user PAT code. PAT codes are issed by GIT hub and allow the GCP service accounts to authenticate as the automation user account from GitHUB.
 
    2. Cloud build.
 
       Could build is enabled to react to changes within the GitHUB configuration repository. Cloud build could be  configured with  many "Builders". In this example a sinlge builder is defined aand configured to process changes in the configuration repository.
 
       1.  A GCP service account that will be used as the identity when deploying the system.
-      2.  Owner and folderAdmin IAM privilages for the service account on the main folder. These privilages de   give this builder "Super user" status on the system. Suitable controls should there be placed on access to the service account and to the content of the configuration repository.
+      2.  A new empty github repositry that will be used to house the "Self configuration"
+      3.  A cloud build trigger that runs for pushes to any branch of the new github repository.
+      2.  Owner and folderAdmin IAM privilages for the service account on the main folder. These privilages give this builder "Super user" status on the system. Suitable controls should there be placed on access to the service account and to the content of the configuration repository.
 
           | RISK:  Access to the configuration git hub repostory or to the assositaed service account on GCP would enable super user access to the system being deployed. This could be used for any action including, but not limited to, deployment of infrastrcuture and the extraction or modification of data. |
           |-|
@@ -136,27 +152,29 @@ Scaffold will then create:
 
 2.  If using a GitHUB organisation, Create a GITHub user for use by automations.  Alteranativy, a personal account may be used in PoC type deployments.
 
-3.  Create a [PAC code](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) for the integration GitHUB account. 
+3.  Create a [PAT code](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) for the integration GitHUB account. 
 
-4.  Create a configuration repository. Copy the content of samples/simple sub directory into the new repository
+4.  Create a new enty folder on a local machine. Alternativly cloud shell can be used.
 
-5.  Authenticate with GCP.  Open the console command line.
+5.  Authenticate with GCP.  
 
-6.  Clone your new configuration repository.
+6.  Copy the content of the /samples/simple folder to the new folder.
 
-7.  Update the configuration with details or your billing account, repo locations and the gcp location in which the system should be deployed. Push all changes back to your configuration repository.
+7.  Update the configuration with details or your billing account, gcp location and git hub integration id. 
 
 8.  Init, plan and apply the terraform in the configuration.
+``` 
+terraform init --upgrade
+terraform plan -var git_identity_token=<GitHUB PAT> -var create_backend=true
+terraform apply -var git_identity_token=<GitHUB PAT> -var create_backend=true
+```
+9.  Terraform will deploy all required infrastructure. Re-initialse terraform to move the statefiles from your local machine to the storace on gcp.
+```
+terraform init
+```
 
-9.  Terraform will deploy an initial folder, and build project. In the build project, locate secret manager.  Secret manager will contain a single secret. Add a new version of this secret that contains the PAC code from step 3.
+10. Terrafrom will have also created a new repository
 
-10.  Update the configuration to include the  app integration id for the app installed into GITHub in step 1 and the location of the configuration repository in GITHub.
-
-11.  Re-init, plan and apply the terraform.  The system should create the "Builder" fro the configuration repostory.
-
-12.  Re-init the terrafrom to copy the terraform state from your terminal to a storage location in the build project.
-
-13.  Terrafrom will have created a new file, backend.tf.  Push this file along with changes to main.tf back to the remote confiuration repository.  Do not push and other terraform files such as the state files.
 
 14. Delete the local version of the repository.  Further changes should be made via an IDE and pushed to the remote repository.  Changes will be deployed via cloud build. Cloud build should show a successfull run that resulted in no changes from the push in step 13. Confirm this build and test a change.  Changing  content_folder_names = ["test"] in main.tf will cause a sub-folder to be deployed. Removing it should revert the deployment to no folders.
 
@@ -180,15 +198,15 @@ Refer to later sections in this document for design approaches and instructions 
 
 7. Destory the terraform
 
-## Architecting scaffold deployments
+## Architecting Taca deployments
 
-Scaffold creates very simple logical architectures.  The simple example, delivers a logical architecture as shown below. The configuration repo can be considered to be controlling the "main folder". Its changes are delivered using the owner and folderAdmin privilages. This means is has effective "super admin" rights over that folder and can make almost any changes. This provides a simple environment for very small PoC type exercises, but is unsuitable for more comple deployemnts.
+Taca creates very simple logical architectures.  The simple example, delivers a logical architecture as shown below. The configuration repo can be considered to be controlling the "main folder". Its changes are delivered using the owner and folderAdmin privilages. This means is has effective "super admin" rights over that folder and can make almost any changes. This provides a simple environment for very small PoC type exercises, but is unsuitable for more comple deployemnts.
 
 ![](./diagrams/LA_Simple.svg)
 
 ### Seperating concerns via multiple builders.
 
-Scaffold is capable of connecting many repositories to the system and allocating them different IAM permissions. This is a very common use case. Each repository contains configuration that controlls different aspects fo the system.  In the example below,  the configuration repository controlls the base setup, incluing controlling the rights of the other repositories.  Seperate repositories have been defined that control IAM, Project Creation and Applicaion Infrastrcuture.
+Taca is capable of connecting many repositories to the system and allocating them different IAM permissions. This is a very common use case. Each repository contains configuration that controlls different aspects fo the system.  In the example below,  the configuration repository controlls the base setup, incluing controlling the rights of the other repositories.  Seperate repositories have been defined that control IAM, Project Creation and Applicaion Infrastrcuture.
 
 ![](./diagrams/LA_4.svg)
 

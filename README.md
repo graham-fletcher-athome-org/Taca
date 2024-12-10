@@ -1,6 +1,6 @@
 # SCAFFOLD
 
-Scaffold is a minimal set of terraform required to deploy the following objets into a GCP org or folder:
+Scaffold is a minimal set of terraform required to deploy a "managed environemnt" into a GCP org or folder:
 1. An optional folder to contain everything else
 2. A project with cloud build enabled
 3. A link to github
@@ -12,7 +12,7 @@ Scaffold is a minimal set of terraform required to deploy the following objets i
        specified branch on a github repository. Where the resulting invocation
        uses the builders service account.
 
-Scaffold was origonally envisioned as a basis for deploying GCP foundations, the layer that provides the secruity framework.  It is by design, very simple and low complexity. However, this allows a large range of different foundations, or other services to be built on top of scaffold. 
+Scaffold was origonally envisioned as a basis for deploying GCP foundations, the layer that provides the secruity framework.  It is by design, very simple and low complexity. However, this allows a large range of different foundations, or other services to be built on top of scaffold. A managed environemnt can be considered an abstract class. It can be built on to deliver a small foundation, a large secure foundation or a build pipline for a single project.  A managed environment is the underlaying frammework on which we build any of these management layers.
 
 The following sections give:
 1. Instructions for a simple deployment of scaffold.
@@ -25,7 +25,7 @@ The final section of this document details how we use scaffold to deliver a high
 This section oulines what a simple configuration delivers, and the infrastructure that will be deployed. It then provdes instructions on how to deliver the simple configuration. The simple configuration should always be considered a fist step that will be modified to produce more complex solutions.  Delivering the simple configuration will prove the github integration which is key to more complex deployments.
 
 ### Getting Started - The High level architecture of a simple configuration
-The simplist scaffold configuraion results in the following deployment.
+The simplist scaffold configuraion results in the following managed enviornment.
 
 ![](./diagrams/HLA.svg)
 
@@ -36,29 +36,40 @@ This is required to process access to GitHUB from gcp and to enable branch merge
 
 2. GitHUB user account
 
-A Git hub user account is required to process automation actions. This should not generally be a user account, but should be an dedicated account.
+A Git hub user account is required to process automation actions. This should not generally be a user account, but should be an dedicated account. Log onto GitHUB and generate a Peronal Access Token (PAT).  A PAT can be used to access github and authenticate as the assosiated user ID. The PAT should be carefully protected.  Within GCP the PAT is stored in secret manager and is not stored as part of any terrafrom statefile.
 
 3. Scaffold Repository
 
 The system should have access to this repository. This can either be access to the public repository or to a private clone.
 
-4. Configuration repository.
+The configuration for this example can be found in the /samples/simple/ directory of the scaffold repository.
 
-The configuration repository controlls the systems deployed by scaffold.  It may also contain other terraform that should be deployed by the same build mechanism. The sample cofiguration repository contains the files deiscced below.
 
 ```
 main.tf
 
-module "testing" {
+/*Create the simple managed environment*/
+module "demo_managed_environment" {
   source                    = "github.com/graham-fletcher-athome-org/scaffold//managed_environment/?ref=v2"
-  root_location             = "<root location>"
-  root_name                 = "v2test"
-  billing                   = "<billing account id>"
-  content_folder_names      = []
-  github_app_intigration_id = <github integration id>
-  git_identity_token        = var.git_identity_token
-}
 
+  /*Root location is the place on gcp where the managed environment should be created. It should be either organizations/xxxxxx  or folders/xxxxx depending on weither the managed environment is being created in the root of an organisation or within a pre existing folder.*/
+  root_location             = "<root location>" 
+
+  /*Root name is the name of a bounding folder that will be created to hold all the content of a managed environment.  If no root_name is provided (or it is null) then no bounding folder will be created and the content will be made dir3ctly in the root location*/
+  root_name                 = "v2test"
+
+  /*The billing account id that should be used*/
+  billing                   = "<billing account id>"
+
+  /*The names of sub folders that should be made within the managed environment*/
+  content_folder_names      = []
+
+  /*The integration details for github. The git_identity_token_secret is passed from this inputs in this sample. It only needs to be provided once as it stored in secret manager. Future invocations need not provide this value, it will be retreived from sectret manager.*/
+  github_app_intigration_id = <github integration id>
+  git_identity_token_secret = var.git_identity_token
+}
+ 
+/*Create a builder with a new repository called bootstrap. This will be used to self-host the managed environments own configuration
 module "boot_strap" {
   source              = "github.com/graham-fletcher-athome-org/scaffold//builder/?ref=v2"
   managed_environment = module.testing
@@ -66,43 +77,20 @@ module "boot_strap" {
   depends_on          = [module.testing]
 }
 
+/*Allocate the bootstrap builder privilages nescessary to self-build*/
 module "iam" {
   source = "github.com/graham-fletcher-athome-org/scaffold//iam/?ref=v2"
+
+  /*Iam can be applied to "Parent" which is the "root_name" bounding folder or the "root_location" if no bounding folder was requested. Iam can also be applied to any of the content folders by specifying a target with their name.
   target = module.testing.places.parent
+
+  /*An Iam policy is defined as a list of builders and a list of roles.  Each builder will be allocated each role.  the iam input is a list of Iam polies.  Iam is always applied as an addadtive function*/
   iam = [{
     builders : [module.boot_strap]
     roles : ["roles/resourcemanager.folderAdmin", "roles/owner"]
   }]
   depends_on = [module.testing, module.boot_strap]
 }
-```
-
-
-```
-Cloudbuild.yaml
-
-steps:
-
-# Step 2: Initialize Terraform
-- name: "hashicorp/terraform:latest"
-  entrypoint: "terraform"
-  args: ["init"]
-
-# Step 3: Validate Terraform configuration
-- name: "hashicorp/terraform:latest"
-  entrypoint: "terraform"
-  args: ["validate"]
-
-# Step 4: Plan Terraform changes
-- name: "hashicorp/terraform:latest"
-  entrypoint: "terraform"
-  args: ["plan", "-out=tfplan"]
-
-# Step 5: Apply Terraform changes
-- name: "hashicorp/terraform:latest"
-  entrypoint: "terraform"
-  args: ["apply", "-auto-approve", "tfplan"]
- 
 ```
 
 

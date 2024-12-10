@@ -7,7 +7,7 @@ variable "managed_environment" {
         location_build_triggers : string,
         foundation_code :string,
         git_hub_enabled : bool,
-        pac : string
+        github_identity_token_secret : string
     })
 }
 

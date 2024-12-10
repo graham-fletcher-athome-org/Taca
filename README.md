@@ -52,14 +52,14 @@ main.tf
 module "demo_managed_environment" {
   source                    = "github.com/graham-fletcher-athome-org/scaffold//managed_environment/?ref=v2"
 
-  /*Root location is the place on gcp where the managed environment should be created. It should be either 
-  organizations/xxxxxx  or folders/xxxxx depending on weither the managed environment is being created in 
-  the root of an organisation or within a pre existing folder.*/
+  /*Root location is the place on gcp where the managed environment should be created. It 
+  should be either organizations/xxxxxx  or folders/xxxxx depending on weither the managed 
+  environment is being created in the root of an organisation or within a pre existing folder.*/
   root_location             = "<root location>" 
 
-  /*Root name is the name of a bounding folder that will be created to hold all the content of a managed 
-  environment.  If no root_name is provided (or it is null) then no bounding folder will be created and the 
-  content will be made dir3ctly in the root location*/
+  /*Root name is the name of a bounding folder that will be created to hold all the content 
+  of a managed environment.  If no root_name is provided (or it is null) then no bounding 
+  folder will be created and the content will be made dir3ctly in the root location*/
   root_name                 = "v2test"
 
   /*The billing account id that should be used*/
@@ -68,15 +68,15 @@ module "demo_managed_environment" {
   /*The names of sub folders that should be made within the managed environment*/
   content_folder_names      = []
 
-  /*The integration details for github. The git_identity_token_secret is passed from this inputs in this 
-  sample. It only needs to be provided once as it stored in secret manager. Future invocations need not 
-  provide this value, it will be retreived from sectret manager.*/
+  /*The integration details for github. The git_identity_token_secret is passed from this 
+  inputs in this sample. It only needs to be provided once as it stored in secret manager. 
+  Future invocations need not provide this value, it will be retreived from sectret manager.*/
   github_app_intigration_id = <github integration id>
   git_identity_token_secret = var.git_identity_token
 }
  
-/*Create a builder with a new repository called bootstrap. This will be used to self-host the managed 
-environments own configuration
+/*Create a builder with a new repository called bootstrap. This will be used to self-host 
+the managed environments own configuration*/
 module "boot_strap" {
   source              = "github.com/graham-fletcher-athome-org/scaffold//builder/?ref=v2"
   managed_environment = module.testing
@@ -88,13 +88,14 @@ module "boot_strap" {
 module "iam" {
   source = "github.com/graham-fletcher-athome-org/scaffold//iam/?ref=v2"
 
-  /*Iam can be applied to "Parent" which is the "root_name" bounding folder or the "root_location" if no 
-  bounding folder was requested. Iam can also be applied to any of the content folders by specifying a 
-  target with their name.
+  /*Iam can be applied to "Parent" which is the "root_name" bounding folder or the 
+  "root_location" if no bounding folder was requested. Iam can also be applied to any 
+  of the content folders by specifying a target with their name.
   target = module.testing.places.parent
 
-  /*An Iam policy is defined as a list of builders and a list of roles.  Each builder will be allocated 
-  each role.  the iam input is a list of Iam polies.  Iam is always applied as an addadtive function*/
+  /*An Iam policy is defined as a list of builders and a list of roles.  
+  Each builder will be allocated each role.  the iam input is a list of Iam polies.  Iam 
+  is always applied as an addadtive function*/
   iam = [{
     builders : [module.boot_strap]
     roles : ["roles/resourcemanager.folderAdmin", "roles/owner"]

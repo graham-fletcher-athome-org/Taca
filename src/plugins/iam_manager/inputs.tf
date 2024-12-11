@@ -8,7 +8,3 @@ variable "iam_configs" {
 variable "managed_environment" {
   type    = me_type
 }
-
-variable "builder_project_id" {
-  type = string
-}

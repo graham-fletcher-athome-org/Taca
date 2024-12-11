@@ -1,5 +1,5 @@
 module "testing" {
-  source                    = "github.com/graham-fletcher-athome-org/scaffold//managed_environment/?ref=v2"
+  source                    = "github.com/graham-fletcher-athome-org/Taca//bin/managed_environment/"
   root_location             = "organizations/56428708073"
   root_name                 = "v2test"
   billing                   = "011B14-62BDBE-B95D53"
@@ -9,14 +9,14 @@ module "testing" {
 }
 
 module "boot_strap" {
-  source              = "github.com/graham-fletcher-athome-org/scaffold//builder/?ref=v2"
+  source              = "github.com/graham-fletcher-athome-org/Taca//bin/builder/"
   managed_environment = module.testing
   name                = "bootstrap"
   depends_on          = [module.testing]
 }
 
 module "iam" {
-  source = "github.com/graham-fletcher-athome-org/scaffold//iam/?ref=v2"
+  source = "github.com/graham-fletcher-athome-org/Taca//bin/iam/"
   target = module.testing.places.parent
   iam = [{
     builders : [module.boot_strap]

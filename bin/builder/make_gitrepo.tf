@@ -15,5 +15,5 @@ resource "github_repository" "repo" {
 }
 
 locals {
-  git_uri = var.uri == null ? format("%s.git", github_repository.repo[0].html_url) : var.uri
+  git_uri = var.uri == null && var.managed_environment.git_hub_enabled == true ? format("%s.git", github_repository.repo[0].html_url) : var.uri
 }

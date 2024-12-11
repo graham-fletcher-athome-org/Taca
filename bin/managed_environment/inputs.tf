@@ -26,9 +26,8 @@ variable "content_folder_names" {
 }
 
 variable "github_app_intigration_id" {
-  type     = number
-  default  = null
-  nullable = true
+  type    = number
+  default = null
 }
 
 variable "default_location" {

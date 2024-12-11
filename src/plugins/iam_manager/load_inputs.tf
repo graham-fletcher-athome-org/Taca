@@ -1,7 +1,7 @@
 #include "../../managed_environment/managed_environment.h"
 
 locals {
-    config_loaded = [for x in var.iam_configs : jasondecode(file(x))]
+    config_loaded = [for x in var.iam_configs : jsondecode(file(x))]
 
     config_unpacked = merge(flatten([for x in local.config_loaded : [
                         for binding in x : [

@@ -3,7 +3,7 @@ steps:
 # Step 1: Check format
 - name: "hashicorp/terraform:latest"
   entrypoint: "terraform"
-  args: ["fmt", "-check", "-recursive"]
+  args: ["fmt", "-check"]
 
 # Step 2: Create backend
 - name: "hashicorp/terraform:latest"

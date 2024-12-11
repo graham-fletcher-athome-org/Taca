@@ -1,5 +1,5 @@
 module "project_name_covention" {
-  source          = "./nameing_conventions/project_name_and_id"
+  source          = "../nameing_conventions/project_name_and_id"
   foundation_code = local.foundation_code
   name            = "builder"
 }
@@ -7,7 +7,8 @@ module "project_name_covention" {
 resource "google_project" "builder_project" {
   project_id      = module.project_name_covention.id
   name            = module.project_name_covention.name
-  folder_id       = local.top_folder_id
+  folder_id       = local.parent_type == "f" ? local.parent_id : null
+  org_id          = local.parent_type == "o" ? trimprefix(local.parent_id, "organizations/") : null
   billing_account = var.billing
   deletion_policy = "DELETE"
 }

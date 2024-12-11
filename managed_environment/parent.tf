@@ -8,7 +8,7 @@ locals {
 
 module "folder_name" {
   count           = var.root_name == null ? 0 : 1
-  source          = "./nameing_conventions/folder_name"
+  source          = "../nameing_conventions/folder_name"
   name            = var.root_name
   foundation_code = local.foundation_code
 }
@@ -21,5 +21,6 @@ resource "google_folder" "top_folder" {
 }
 
 locals {
-  top_folder_id = var.root_name == null ? var.root_location : google_folder.top_folder[0].id
+  parent_id   = var.root_name == null ? var.root_location : google_folder.top_folder[0].id
+  parent_type = var.root_name == null ? (startswith(var.root_location, "folder") ? "f" : "o") : "f"
 }

@@ -18,32 +18,6 @@ variable "content_folder_names" {
   default = []
 }
 
-variable "builders" {
-  type = list(object({
-    name : string
-    sa_name : string
-    repo : string
-    branch : string
-    ignored_files : list(string)
-    included_files : list(string)
-    filename : string
-    folder_ids : map(any)
-    iam : list(object({
-      content_folder_name : string,
-      roles : list(string)
-    }))
-  }))
-
-  default = []
-
-}
-
-variable "github_connection_id" {
-  type     = string
-  default  = null
-  nullable = true
-}
-
 variable "github_app_intigration_id" {
   type     = number
   default  = null
@@ -70,14 +44,8 @@ variable "location_build_triggers" {
   default = null
 }
 
-variable "bootstrap_repo" {
-  type     = string
-  default  = null
-  nullable = true
+variable "github_identity_token" {
+  type      = string
+  default   = null
+  sensitive = true
 }
-
-variable "make_backend" {
-  type     = bool
-  default  = false
-}
-

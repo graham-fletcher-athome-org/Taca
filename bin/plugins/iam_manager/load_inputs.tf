@@ -43,5 +43,5 @@ locals {
 }
 
 output "bob" {
-  value = local.coniam_to_apply
+  value = local.iam_to_apply
 }

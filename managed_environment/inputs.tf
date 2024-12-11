@@ -45,7 +45,7 @@ variable "location_build_triggers" {
 }
 
 variable "github_identity_token" {
-  type = string
-  default = null
+  type      = string
+  default   = null
   sensitive = true
 }

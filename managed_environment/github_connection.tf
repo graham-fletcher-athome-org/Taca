@@ -11,9 +11,9 @@ resource "google_secret_manager_secret" "github_token_secret" {
 
 resource "google_secret_manager_secret_version" "github_token_secret_version" {
   secret      = google_secret_manager_secret.github_token_secret.id
-  secret_data = coalesce(var.github_identity_token,"None supplied")
+  secret_data = coalesce(var.github_identity_token, "None supplied")
   lifecycle {
-    ignore_changes = [secret_data,]
+    ignore_changes = [secret_data, ]
   }
 }
 
@@ -56,7 +56,7 @@ resource "google_cloudbuildv2_connection" "connection" {
     }
   }
 
-  depends_on = [google_project_service.cloud_build_service,time_sleep.policy_pause]
+  depends_on = [google_project_service.cloud_build_service, time_sleep.policy_pause]
 
 }
 

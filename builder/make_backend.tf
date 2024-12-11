@@ -1,5 +1,5 @@
 resource "local_file" "backend" {
-  count      = var.make_backend ? 1:0
+  count      = var.make_backend ? 1 : 0
   content    = <<EOT
 terraform {
   backend "gcs" {

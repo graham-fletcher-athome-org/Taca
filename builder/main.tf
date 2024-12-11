@@ -22,9 +22,9 @@ resource "google_storage_bucket" "log_buckets" {
 }
 
 resource "google_storage_bucket_iam_member" "log_bucket_iam" {
-  bucket   = google_storage_bucket.log_buckets.id
-  role     = "roles/storage.admin"
-  member   = format("serviceAccount:%s", google_service_account.builder_service_account.email)
+  bucket = google_storage_bucket.log_buckets.id
+  role   = "roles/storage.admin"
+  member = format("serviceAccount:%s", google_service_account.builder_service_account.email)
 }
 
 module "build_assets_bucket_names" {
@@ -44,9 +44,9 @@ resource "google_storage_bucket" "build_assets_buckets" {
 }
 
 resource "google_storage_bucket_iam_member" "build_assets_buckets_iam" {
-  bucket   = google_storage_bucket.build_assets_buckets.id
-  role     = "roles/storage.objectUser"
-  member   = format("serviceAccount:%s", google_service_account.builder_service_account.email)
+  bucket = google_storage_bucket.build_assets_buckets.id
+  role   = "roles/storage.objectUser"
+  member = format("serviceAccount:%s", google_service_account.builder_service_account.email)
 }
 
 /* Make trigger and connect to github */

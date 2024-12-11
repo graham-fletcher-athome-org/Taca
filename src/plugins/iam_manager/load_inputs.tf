@@ -28,7 +28,7 @@ locals {
     config_no_builder_sa = {for key,value in local.config_no_bad_places : key=>value if regexall(var.managed_environment.builder_project_id,value.sa) == 0}
 
 
-    iam_to_apply = config_no_builder_sa
+    iam_to_apply = local.config_no_builder_sa
 
     
 }

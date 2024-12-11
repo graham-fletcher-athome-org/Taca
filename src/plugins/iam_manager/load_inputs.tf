@@ -1,12 +1,12 @@
 #include "../../managed_environment/managed_environment.h"
 
 locals {
-    config_loaded = [for x in var.iam_configs : jsondecode(file(x))]
+    config_loaded = [for x in var.iam_configs : try(jsondecode(file(x)),[])]
 
-    config_unpacked = merge(flatten([for x in local.config_loaded : [
+    config_unpacked = flatten([for x in local.config_loaded : [
                         for binding in x : [
                             for account in binding.accounts : {
-                                for role in binding.roles: binding.id =>
+                                for role in binding.roles: sha256(format("%s%s%s",binding.target,sa,role)) =>
                                 {
                                     target = binding.target
                                     sa     = account
@@ -14,8 +14,9 @@ locals {
                                 }
                             }
                         ]
-                    ]]))
-
+                    ]])
+                    
+/*
     config_places_deref = {for key,value in local.config_unpacked: key=> {
                                                             target = me_deref_place(var.managed_environment,value.target)
                                                             sa     = value.sa
@@ -30,5 +31,9 @@ locals {
 
     iam_to_apply = local.config_no_builder_sa
 
-    
+   */ 
+}
+
+output "bob" {
+    value = local.config_unpacked
 }

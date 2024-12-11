@@ -60,3 +60,8 @@ variable "make_backend" {
   default = false
 }
 
+variable "substitutions" {
+  type    = map(string)
+  default = {}
+}
+

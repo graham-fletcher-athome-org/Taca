@@ -16,7 +16,7 @@ locals {
                         ]
                     ]])...)
                     
-/*
+
     config_places_deref = {for key,value in local.config_unpacked: key=> {
                                                             target = me_deref_place(var.managed_environment,value.target)
                                                             sa     = value.sa
@@ -31,9 +31,9 @@ locals {
 
     iam_to_apply = local.config_no_builder_sa
 
-   */ 
+
 }
 
 output "bob" {
-    value = local.config_unpacked
+    value = local.coniam_to_apply
 }

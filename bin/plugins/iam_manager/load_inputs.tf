@@ -26,7 +26,7 @@ locals {
 
 
   config_places_deref = { for key, value in local.config_unpacked : key => {
-    target = var.managed_environment.places[value.target]
+    target = try(var.managed_environment.places[value.target].id, null)
     sa     = value.sa
     role   = value.role
     }

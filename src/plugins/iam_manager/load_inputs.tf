@@ -6,7 +6,7 @@ locals {
     config_unpacked = flatten([for x in local.config_loaded : [
                         for binding in x : [
                             for account in binding.accounts : {
-                                for role in binding.roles: sha256(format("%s%s%s",binding.target,sa,role)) =>
+                                for role in binding.roles: sha256(format("%s%s%s",binding.target,account,role)) =>
                                 {
                                     target = binding.target
                                     sa     = account

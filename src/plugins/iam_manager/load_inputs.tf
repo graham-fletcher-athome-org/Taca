@@ -35,5 +35,5 @@ locals {
 }
 
 output "bob" {
-    value = local.iam_to_apply
+    value = local.config_places_deref
 }

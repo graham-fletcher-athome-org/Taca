@@ -9,4 +9,4 @@
     github_identity_token_secret : string \
   })
 
-#define me_deref_place(me,x) try(me.places[x],null)
+#define me_deref_place(me,x) me.places[x]

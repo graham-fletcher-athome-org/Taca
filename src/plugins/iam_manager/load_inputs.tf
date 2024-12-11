@@ -3,7 +3,7 @@
 locals {
     config_loaded = [for x in var.iam_configs : try(jsondecode(file(x)),[])]
 
-    config_unpacked = flatten([for x in local.config_loaded : [
+    config_unpacked = merge(flatten([for x in local.config_loaded : [
                         for binding in x : [
                             for account in binding.accounts : {
                                 for role in binding.roles: sha256(format("%s%s%s",binding.target,account,role)) =>
@@ -14,7 +14,7 @@ locals {
                                 }
                             }
                         ]
-                    ]])
+                    ]])...)
                     
 /*
     config_places_deref = {for key,value in local.config_unpacked: key=> {

@@ -9,7 +9,7 @@
 # 2 "./builder/inputs.tf" 2
 
 variable "managed_environment" {
-  type = object({ places : object(any), git_hub_connection : string, builder_project : string, default_location : string, location_build_triggers : string, foundation_code : string, git_hub_enabled : bool, github_identity_token_secret : string })
+  type = object({ places : any, git_hub_connection : string, builder_project : string, default_location : string, location_build_triggers : string, foundation_code : string, git_hub_enabled : bool, github_identity_token_secret : string })
 }
 
 variable "name" {

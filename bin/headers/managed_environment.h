@@ -1,5 +1,5 @@
 #define me_type object({\
-    places : object(any), \
+    places : any, \
     git_hub_connection : string, \
     builder_project : string, \
     default_location : string, \

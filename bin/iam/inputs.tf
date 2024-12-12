@@ -5,11 +5,10 @@
 # 1 "<command line>" 1
 # 1 "<built-in>" 2
 # 1 "./iam/inputs.tf" 2
+# 1 "./iam/../managed_environment/place.h" 1
+# 2 "./iam/inputs.tf" 2
 variable "target" {
-  type = object({
-    id : string
-    type : string
-  })
+  type = object(place)
 }
 
 variable "iam" {

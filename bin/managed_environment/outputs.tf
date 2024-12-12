@@ -5,9 +5,11 @@
 # 1 "<command line>" 1
 # 1 "<built-in>" 2
 # 1 "./managed_environment/outputs.tf" 2
+# 1 "./managed_environment/./place.h" 1
+# 2 "./managed_environment/outputs.tf" 2
 
 output "places" {
-  value = merge({ for key, v in google_folder.content_folder : key => { id = v.id, type = "f" } }, { parent = { id = local.parent_id, type = local.parent_type } })
+  value = flatten([[for key, v in google_folder.content_folder : { name = key, id = v.id, type = "f" }], [{ name = "parent", id = local.parent_id, type = local.parent_type }]])
 }
 
 output "git_hub_connection" {

@@ -1,8 +1,6 @@
+#include "../managed_environment/place.h"
 variable "target" {
-  type = object({
-    id : string
-    type : string
-  })
+  type = object(place)
 }
 
 variable "iam" {

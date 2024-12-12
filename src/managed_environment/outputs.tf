@@ -1,6 +1,7 @@
+#include "./place.h"
 
 output "places" {
-  value = merge({ for key, v in google_folder.content_folder : key => { id = v.id, type = "f" } }, { parent = { id = local.parent_id, type = local.parent_type } })
+  value = flatten([[ for key, v in google_folder.content_folder : place_new(key, v.id, "f") ], [place_new("parent", local.parent_id, local.parent_type) ]])
 }
 
 output "git_hub_connection" {

@@ -6,10 +6,19 @@
 # 1 "<built-in>" 2
 # 1 "./builder/inputs.tf" 2
 # 1 "./builder/../managed_environment/managed_environment.h" 1
+
+
+
+
+
+# 1 "./builder/../managed_environment/../helperfunctions.h" 1
+# 7 "./builder/../managed_environment/managed_environment.h" 2
+# 1 "./builder/../managed_environment/./place.h" 1
+# 8 "./builder/../managed_environment/managed_environment.h" 2
 # 2 "./builder/inputs.tf" 2
 
 variable "managed_environment" {
-  type = object({ places : any, git_hub_connection : string, builder_project : string, default_location : string, location_build_triggers : string, foundation_code : string, git_hub_enabled : bool, github_identity_token_secret : string })
+  type = { places : list({ name : string, id : string, type : string }), git_hub_connection : string, builder_project : string, default_location : string, location_build_triggers : string, foundation_code : string, git_hub_enabled : bool, github_identity_token_secret : string }
 }
 
 variable "name" {

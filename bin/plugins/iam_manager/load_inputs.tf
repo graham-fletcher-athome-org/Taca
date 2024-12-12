@@ -6,6 +6,15 @@
 # 1 "<built-in>" 2
 # 1 "./plugins/iam_manager/load_inputs.tf" 2
 # 1 "./plugins/iam_manager/../../managed_environment/managed_environment.h" 1
+
+
+
+
+
+# 1 "./plugins/iam_manager/../../managed_environment/../helperfunctions.h" 1
+# 7 "./plugins/iam_manager/../../managed_environment/managed_environment.h" 2
+# 1 "./plugins/iam_manager/../../managed_environment/./place.h" 1
+# 8 "./plugins/iam_manager/../../managed_environment/managed_environment.h" 2
 # 2 "./plugins/iam_manager/load_inputs.tf" 2
 
 locals {
@@ -26,7 +35,7 @@ locals {
 
 
   config_places_deref = { for key, value in local.config_unpacked : key => {
-    target = var.managed_environment.places[value.target]
+    target = (var.managed_environment.places[value.target])
     name   = value.target
     sa     = value.sa
     role   = value.role

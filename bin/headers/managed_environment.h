@@ -1,5 +1,12 @@
-#define me_type object({\
-    places : any, \
+
+
+
+#ifndef managed_environment_included
+#define managed_environment_included
+#include "../helperfunctions.h"
+#include "./place.h"
+#define me_type {\
+    places : list(place_type), \
     git_hub_connection : string, \
     builder_project : string, \
     default_location : string, \
@@ -7,6 +14,10 @@
     foundation_code : string, \
     git_hub_enabled : bool, \
     github_identity_token_secret : string \
-  })
+  }
 
-#define me_deref_place(me,x) me.places[x]
+#define me_name_to_place(me,n) (me.places[n])
+
+
+
+#endif

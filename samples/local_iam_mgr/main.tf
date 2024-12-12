@@ -1,10 +1,10 @@
 module "testing" {
   source                    = "github.com/graham-fletcher-athome-org/scaffold//bin/managed_environment/?ref=iam_mgr"
-  root_location             = "organizations/56428708073"
-  root_name                 = "v2test"
-  billing                   = "011B14-62BDBE-B95D53"
-  content_folder_names      = ["f1", "f2"]
-  github_app_intigration_id = null
+  root_location             = var.root_location
+  root_name                 = "sample"
+  billing                   = var.billing
+  content_folder_names      = []
+  github_app_intigration_id = var.github_app_intigration_id
   github_identity_token     = var.git_identity_token
 }
 
@@ -34,6 +34,6 @@ data "google_secret_manager_secret_version" "latest_pac" {
 
 provider "github" {
   token = module.testing.git_hub_enabled ? data.google_secret_manager_secret_version.latest_pac.secret_data : null
-  owner = "graham-fletcher-athome-org"
+  owner = var.github_organization
 }
 

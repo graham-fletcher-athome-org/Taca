@@ -44,5 +44,5 @@ locals {
 }
 
 output "bob" {
-  value = local.iam_to_apply
+  value = local.config_no_bad_places
 }

@@ -6,7 +6,7 @@
 #include "../helperfunctions.h"
 #include "./place.h"
 #define me_type {\
-    places : list(place_type), \
+    places : list(object(place_type)), \
     git_hub_connection : string, \
     builder_project : string, \
     default_location : string, \

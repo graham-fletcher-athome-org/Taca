@@ -1,7 +1,7 @@
 #include "../managed_environment/managed_environment.h"
 
 variable "managed_environment" {
-  type = me_type
+  type = object(me_type)
 }
 
 variable "name" {

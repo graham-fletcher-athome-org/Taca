@@ -8,7 +8,7 @@
 # 1 "./iam/../managed_environment/place.h" 1
 # 2 "./iam/inputs.tf" 2
 variable "target" {
-  type = object(place)
+  type = object({ name : string, id : string, type : string })
 }
 
 variable "iam" {

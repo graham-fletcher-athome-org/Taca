@@ -1,0 +1,7 @@
+[
+    {  
+        "accounts":["user:graham.fletcher@bip-group.com"],
+        "target":"parent",
+        "roles":["roles/editor"]
+    }     
+]

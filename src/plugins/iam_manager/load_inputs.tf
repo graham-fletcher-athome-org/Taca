@@ -18,7 +18,7 @@ locals {
                     
 
     config_places_deref = {for key,value in local.config_unpacked: key=> {
-                                                            target = var.managed_environment[value.target]
+                                                            target = var.managed_environment.places[value.target]
                                                             name   = value.target
                                                             sa     = value.sa
                                                             role   = value.role

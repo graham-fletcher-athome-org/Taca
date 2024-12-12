@@ -3,4 +3,4 @@ resource "google_folder_iam_member" "folder" {
   folder   = each.value.target.id
   role     = each.value.role
   member   = each.value.sa
-}*/
+}

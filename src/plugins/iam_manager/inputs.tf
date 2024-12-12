@@ -6,5 +6,5 @@ variable "iam_configs" {
 }
 
 variable "managed_environment" {
-  type    = me_type
+  type    = object(me_type)
 }

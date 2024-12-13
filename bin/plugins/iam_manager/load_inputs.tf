@@ -35,7 +35,7 @@ locals {
 
 
   config_places_deref = { for key, value in local.config_unpacked : key => {
-    target = (var.managed_environment.places[value.target])
+    target = (coaless([for x in var.managed_environment : (x.name == value.target) ? x : null]...))
     name   = value.target
     sa     = value.sa
     role   = value.role

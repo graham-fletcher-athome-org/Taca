@@ -16,7 +16,7 @@
     github_identity_token_secret : string \
   }
 
-#define me_name_to_place(me,n) (me.places[n])
+#define me_name_to_place(me,n) (search_list_of_maps(me,name,n))
 
 
 

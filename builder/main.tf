@@ -59,6 +59,18 @@ resource "google_cloudbuildv2_repository" "github_repos" {
   remote_uri        = local.git_uri
 }
 
+# add any additional substitutions to the default list. Defaults will replace any duplicates
+locals {
+  default_trigger_substitutions = {
+    _LOGBUCKET        = google_storage_bucket.log_buckets.id
+    _BABUCKET         = google_storage_bucket.build_assets_buckets.id
+    _DEFAULT_LOCATION = var.managed_environment.default_location
+    _PLACES           = jsonencode(var.managed_environment.places)
+    _FOUNDATION_CODE  = var.managed_environment.foundation_code
+  }
+  trigger_substitutions = merge(var.substitutions, local.default_trigger_substitutions)
+}
+
 resource "google_cloudbuild_trigger" "triggers" {
   count           = var.managed_environment.git_hub_enabled ? 1 : 0
   name            = var.name
@@ -73,13 +85,8 @@ resource "google_cloudbuild_trigger" "triggers" {
       branch = var.branch
     }
   }
-  substitutions = {
-    _LOGBUCKET        = google_storage_bucket.log_buckets.id
-    _BABUCKET         = google_storage_bucket.build_assets_buckets.id
-    _DEFAULT_LOCATION = var.managed_environment.default_location
-    _PLACES           = jsonencode(var.managed_environment.places)
-    _FOUNDATION_CODE  = var.managed_environment.foundation_code
-  }
+
+  substitutions = local.trigger_substitutions
 
   filename           = var.file_name
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"

@@ -4,7 +4,7 @@
 echo "Copy to everything except tf to bin"
 rm -rf ../bin/*
 
-rsync -av --exclude='*.tf' --exclude 'build.sh' --exclude '*.h' . ../bin
+rsync -av --exclude='*.tf' --exclude 'build.sh' . ../bin
 
 # Find all .cfcpp files in the current directory and subdirectories
 find . -type f -name "*.tf" | while read -r c_file; do
@@ -28,21 +28,6 @@ find . -type f -name "*.tf" | while read -r c_file; do
   fi
 done
 
-mkdir ../bin/headers
-find . -type f -name "*.h" | while read -r c_file; do
-  # Get the directory of the .c file
-  dir=$(dirname "$c_file")
-  
-  # Get the base name of the .c file without the extension
-  base_name=$(basename "$c_file" .tf)
-
-  # Set the output file name with .i extension in the same directory
-  output_file="../bin/headers/$base_name"
-
-  # Preprocess the .c file using the C compiler's preprocessor
-  cp $c_file $output_file
-
-done
 
 cd ../bin
 echo "Formatting to tf standards"

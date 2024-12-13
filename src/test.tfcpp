@@ -1,0 +1,9 @@
+#include "./helperfunctions.h"
+
+locals{
+    x = 3
+}
+
+output "o" {
+    value = bob(local.x)
+}
